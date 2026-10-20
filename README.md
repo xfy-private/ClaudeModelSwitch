@@ -1,2 +1,0 @@
-# ClaudeModelSwitch
-ClaudeModelSwitch
