@@ -1,0 +1,22 @@
+# ===== 敏感配置（含真实 API Key，切勿提交）=====
+/config.json
+/claude-settings.json
+# 用量持久化文件（运行期状态，Phase 27）
+*-usage.json
+# 桌面卡片状态（Phase 55：窗口位置/可见性，运行期状态）
+*-card.json
+
+# ===== Rust 构建产物 =====
+/target/
+*.exe
+
+# ===== Web UI 构建环境 =====
+webui/tailwind/node_modules/
+webui/tailwind/out.css
+
+# ===== 运行/测试日志 =====
+*.log
+
+# ===== 系统杂项 =====
+.DS_Store
+Thumbs.db
