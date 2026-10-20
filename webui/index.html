@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClaudeRelay 配置</title>
+<!-- Tailwind 编译产物占位块：python webui/build_ui.py 会替换为编译后的 CSS -->
+<style id="tw">/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
+@layer properties{@supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))){*,:before,:after,::backdrop{--tw-border-style:solid;--tw-leading:initial;--tw-font-weight:initial;--tw-shadow:0 0 #0000;--tw-shadow-color:initial;--tw-shadow-alpha:100%;--tw-inset-shadow:0 0 #0000;--tw-inset-shadow-color:initial;--tw-inset-shadow-alpha:100%;--tw-ring-color:initial;--tw-ring-shadow:0 0 #0000;--tw-inset-ring-color:initial;--tw-inset-ring-shadow:0 0 #0000;--tw-ring-inset:initial;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-offset-shadow:0 0 #0000}}}@layer theme{:root,:host{--font-sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--font-mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;--color-red-50:oklch(97.1% .013 17.38);--color-red-100:oklch(93.6% .032 17.717);--color-red-600:oklch(57.7% .245 27.325);--color-red-700:oklch(50.5% .213 27.518);--color-red-800:oklch(44.4% .177 26.899);--color-amber-50:oklch(98.7% .022 95.277);--color-amber-700:oklch(55.5% .163 48.998);--color-green-50:oklch(98.2% .018 155.826);--color-green-100:oklch(96.2% .044 156.743);--color-green-600:oklch(62.7% .194 149.214);--color-green-700:oklch(52.7% .154 150.069);--color-green-800:oklch(44.8% .119 151.328);--color-emerald-50:oklch(97.9% .021 166.113);--color-emerald-700:oklch(50.8% .118 165.612);--color-sky-50:oklch(97.7% .013 236.62);--color-sky-700:oklch(50% .134 242.749);--color-blue-400:oklch(70.7% .165 254.624);--color-indigo-50:oklch(96.2% .018 272.314);--color-indigo-700:oklch(45.7% .24 277.023);--color-zinc-50:oklch(98.5% 0 none);--color-zinc-100:oklch(96.7% .001 286.375);--color-zinc-200:oklch(92% .004 286.32);--color-zinc-300:oklch(87.1% .006 286.286);--color-zinc-400:oklch(70.5% .015 286.067);--color-zinc-500:oklch(55.2% .016 285.938);--color-zinc-600:oklch(44.2% .017 285.786);--color-zinc-700:oklch(37% .013 285.805);--color-zinc-800:oklch(27.4% .006 286.033);--color-zinc-900:oklch(21% .006 285.885);--color-black:#000;--color-white:#fff;--spacing:.25rem;--container-md:28rem;--container-xl:36rem;--container-4xl:56rem;--text-xs:.75rem;--text-xs--line-height:calc(1 / .75);--text-sm:.875rem;--text-sm--line-height:calc(1.25 / .875);--text-base:1rem;--text-base--line-height:calc(1.5 / 1);--text-xl:1.25rem;--text-xl--line-height:calc(1.75 / 1.25);--font-weight-normal:400;--font-weight-medium:500;--font-weight-semibold:600;--leading-relaxed:1.625;--radius-md:.375rem;--radius-xl:.75rem;--radius-2xl:1rem;--default-transition-duration:.15s;--default-transition-timing-function:cubic-bezier(.4, 0, .2, 1);--default-font-family:var(--font-sans);--default-mono-font-family:var(--font-mono)}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}html,:host{-webkit-text-size-adjust:100%;tab-size:4;line-height:1.5;font-family:var(--default-font-family,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");font-feature-settings:var(--default-font-feature-settings,normal);font-variation-settings:var(--default-font-variation-settings,normal);-webkit-tap-highlight-color:transparent}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;-webkit-text-decoration:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:var(--default-mono-font-family,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);font-feature-settings:var(--default-mono-font-feature-settings,normal);font-variation-settings:var(--default-mono-font-variation-settings,normal);font-size:1em}small{font-size:80%}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}:-moz-focusring:where(:not(iframe)){outline:auto}progress{vertical-align:baseline}summary{display:list-item}ol,ul,menu{list-style:none}img,svg,video,canvas,audio,iframe,embed,object{vertical-align:middle;display:block}img,video{max-width:100%;height:auto}button,input,select,optgroup,textarea{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}::file-selector-button{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}:where(select:is([multiple],[size])) optgroup{font-weight:bolder}:where(select:is([multiple],[size])) optgroup option{padding-inline-start:20px}::file-selector-button{margin-inline-end:4px}::placeholder{opacity:1}@supports (not ((-webkit-appearance:-apple-pay-button))) or (contain-intrinsic-size:1px){::placeholder{color:currentColor}@supports (color:color-mix(in lab, red, red)){::placeholder{color:color-mix(in oklab, currentcolor 50%, transparent)}}}textarea{resize:vertical}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-date-and-time-value{min-height:1lh;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-datetime-edit{padding-block:0}::-webkit-datetime-edit-year-field{padding-block:0}::-webkit-datetime-edit-month-field{padding-block:0}::-webkit-datetime-edit-day-field{padding-block:0}::-webkit-datetime-edit-hour-field{padding-block:0}::-webkit-datetime-edit-minute-field{padding-block:0}::-webkit-datetime-edit-second-field{padding-block:0}::-webkit-datetime-edit-millisecond-field{padding-block:0}::-webkit-datetime-edit-meridiem-field{padding-block:0}::-webkit-calendar-picker-indicator{line-height:1}:-moz-ui-invalid{box-shadow:none}button,input:where([type=button],[type=reset],[type=submit]){appearance:button}::file-selector-button{appearance:button}::-webkit-inner-spin-button{height:auto}::-webkit-outer-spin-button{height:auto}[hidden]:where(:not([hidden=until-found])),[hidden]{display:none!important}}@layer components;@layer utilities{.absolute{position:absolute}.fixed{position:fixed}.relative{position:relative}.inset-0{inset:0}.z-50{z-index:50}.m-0{margin:0}.-mx-1{margin-inline:calc(var(--spacing) * -1)}.mx-0\.5{margin-inline:calc(var(--spacing) * .5)}.mx-1\.5{margin-inline:calc(var(--spacing) * 1.5)}.mx-auto{margin-inline:auto}.my-2\.5{margin-block:calc(var(--spacing) * 2.5)}.mt-0\.5{margin-top:calc(var(--spacing) * .5)}.mt-1{margin-top:var(--spacing)}.mt-1\.5{margin-top:calc(var(--spacing) * 1.5)}.mt-2{margin-top:calc(var(--spacing) * 2)}.mt-2\.5{margin-top:calc(var(--spacing) * 2.5)}.mt-3{margin-top:calc(var(--spacing) * 3)}.mt-4{margin-top:calc(var(--spacing) * 4)}.mt-5{margin-top:calc(var(--spacing) * 5)}.mt-8{margin-top:calc(var(--spacing) * 8)}.mb-1{margin-bottom:var(--spacing)}.mb-1\.5{margin-bottom:calc(var(--spacing) * 1.5)}.mb-2{margin-bottom:calc(var(--spacing) * 2)}.mb-2\.5{margin-bottom:calc(var(--spacing) * 2.5)}.mb-4{margin-bottom:calc(var(--spacing) * 4)}.ml-auto{margin-left:auto}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.inline-flex{display:inline-flex}.h-4{height:calc(var(--spacing) * 4)}.max-h-64{max-height:calc(var(--spacing) * 64)}.min-h-\[18px\]{min-height:18px}.w-4{width:calc(var(--spacing) * 4)}.w-full{width:100%}.max-w-4xl{max-width:var(--container-4xl)}.max-w-md{max-width:var(--container-md)}.max-w-xl{max-width:var(--container-xl)}.min-w-0{min-width:0}.min-w-\[64px\]{min-width:64px}.min-w-\[180px\]{min-width:180px}.flex-1{flex:1}.shrink-0{flex-shrink:0}.cursor-pointer{cursor:pointer}.grid-cols-\[minmax\(0\,1fr\)_minmax\(0\,1fr\)_110px_120px_30px\]{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 110px 120px 30px}.flex-col{flex-direction:column}.flex-row{flex-direction:row}.flex-nowrap{flex-wrap:nowrap}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.items-start{align-items:flex-start}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.justify-end{justify-content:flex-end}.gap-1{gap:var(--spacing)}.gap-1\.5{gap:calc(var(--spacing) * 1.5)}.gap-2{gap:calc(var(--spacing) * 2)}.gap-2\.5{gap:calc(var(--spacing) * 2.5)}.gap-3{gap:calc(var(--spacing) * 3)}.gap-x-4{column-gap:calc(var(--spacing) * 4)}.gap-y-0\.5{row-gap:calc(var(--spacing) * .5)}.gap-y-1{row-gap:var(--spacing)}.truncate{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:var(--radius-2xl)}.rounded-full{border-radius:3.40282e38px}.rounded-md{border-radius:var(--radius-md)}.rounded-xl{border-radius:var(--radius-xl)}.border{border-style:var(--tw-border-style);border-width:1px}.border-t{border-top-style:var(--tw-border-style);border-top-width:1px}.border-b{border-bottom-style:var(--tw-border-style);border-bottom-width:1px}.border-none{--tw-border-style:none;border-style:none}.border-zinc-100{border-color:var(--color-zinc-100)}.border-zinc-200{border-color:var(--color-zinc-200)}.border-zinc-300{border-color:var(--color-zinc-300)}.bg-amber-50{background-color:var(--color-amber-50)}.bg-black\/40{background-color:#0006}@supports (color:color-mix(in lab, red, red)){.bg-black\/40{background-color:color-mix(in oklab, var(--color-black) 40%, transparent)}}.bg-emerald-50{background-color:var(--color-emerald-50)}.bg-green-50{background-color:var(--color-green-50)}.bg-green-100{background-color:var(--color-green-100)}.bg-indigo-50{background-color:var(--color-indigo-50)}.bg-red-50{background-color:var(--color-red-50)}.bg-red-100{background-color:var(--color-red-100)}.bg-sky-50{background-color:var(--color-sky-50)}.bg-transparent{background-color:#0000}.bg-white{background-color:var(--color-white)}.bg-zinc-50{background-color:var(--color-zinc-50)}.bg-zinc-100{background-color:var(--color-zinc-100)}.bg-zinc-200{background-color:var(--color-zinc-200)}.p-0{padding:0}.p-3\.5{padding:calc(var(--spacing) * 3.5)}.p-5{padding:calc(var(--spacing) * 5)}.px-1{padding-inline:var(--spacing)}.px-1\.5{padding-inline:calc(var(--spacing) * 1.5)}.px-2{padding-inline:calc(var(--spacing) * 2)}.px-2\.5{padding-inline:calc(var(--spacing) * 2.5)}.px-3{padding-inline:calc(var(--spacing) * 3)}.px-3\.5{padding-inline:calc(var(--spacing) * 3.5)}.px-4{padding-inline:calc(var(--spacing) * 4)}.py-0\.5{padding-block:calc(var(--spacing) * .5)}.py-1{padding-block:var(--spacing)}.py-1\.5{padding-block:calc(var(--spacing) * 1.5)}.py-2{padding-block:calc(var(--spacing) * 2)}.py-2\.5{padding-block:calc(var(--spacing) * 2.5)}.py-3{padding-block:calc(var(--spacing) * 3)}.pt-2{padding-top:calc(var(--spacing) * 2)}.pt-6{padding-top:calc(var(--spacing) * 6)}.pt-12{padding-top:calc(var(--spacing) * 12)}.pr-3{padding-right:calc(var(--spacing) * 3)}.pb-1\.5{padding-bottom:calc(var(--spacing) * 1.5)}.pb-4{padding-bottom:calc(var(--spacing) * 4)}.pb-6{padding-bottom:calc(var(--spacing) * 6)}.pl-2{padding-left:calc(var(--spacing) * 2)}.text-center{text-align:center}.text-left{text-align:left}.text-base{font-size:var(--text-base);line-height:var(--tw-leading,var(--text-base--line-height))}.text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.text-xl{font-size:var(--text-xl);line-height:var(--tw-leading,var(--text-xl--line-height))}.text-xs{font-size:var(--text-xs);line-height:var(--tw-leading,var(--text-xs--line-height))}.text-\[11px\]{font-size:11px}.text-\[12px\]{font-size:12px}.text-\[13px\]{font-size:13px}.text-\[22px\]{font-size:22px}.leading-none{--tw-leading:1;line-height:1}.leading-relaxed{--tw-leading:var(--leading-relaxed);line-height:var(--leading-relaxed)}.font-medium{--tw-font-weight:var(--font-weight-medium);font-weight:var(--font-weight-medium)}.font-normal{--tw-font-weight:var(--font-weight-normal);font-weight:var(--font-weight-normal)}.font-semibold{--tw-font-weight:var(--font-weight-semibold);font-weight:var(--font-weight-semibold)}.whitespace-nowrap{white-space:nowrap}.whitespace-pre-line{white-space:pre-line}.text-amber-700{color:var(--color-amber-700)}.text-emerald-700{color:var(--color-emerald-700)}.text-green-700{color:var(--color-green-700)}.text-green-800{color:var(--color-green-800)}.text-indigo-700{color:var(--color-indigo-700)}.text-red-600{color:var(--color-red-600)}.text-red-700{color:var(--color-red-700)}.text-red-800{color:var(--color-red-800)}.text-sky-700{color:var(--color-sky-700)}.text-zinc-300{color:var(--color-zinc-300)}.text-zinc-400{color:var(--color-zinc-400)}.text-zinc-500{color:var(--color-zinc-500)}.text-zinc-600{color:var(--color-zinc-600)}.text-zinc-700{color:var(--color-zinc-700)}.text-zinc-800{color:var(--color-zinc-800)}.text-zinc-900{color:var(--color-zinc-900)}.accent-green-600{accent-color:var(--color-green-600)}.shadow-xl{--tw-shadow:0 20px 25px -5px var(--tw-shadow-color,#0000001a), 0 8px 10px -6px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)}.transition-colors{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.select-none{-webkit-user-select:none;user-select:none}.last\:border-b-0:last-child{border-bottom-style:var(--tw-border-style);border-bottom-width:0}@media (hover:hover){.hover\:bg-zinc-50:hover{background-color:var(--color-zinc-50)}.hover\:text-zinc-600:hover{color:var(--color-zinc-600)}}.focus\:border-transparent:focus{border-color:#0000}.focus\:ring-2:focus{--tw-ring-shadow:var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color,currentcolor);box-shadow:var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)}.focus\:ring-blue-400:focus{--tw-ring-color:var(--color-blue-400)}.focus\:outline-none:focus{--tw-outline-style:none;outline-style:none}@media (min-width:40rem){.sm\:col-span-2{grid-column:span 2/span 2}.sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.sm\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-leading{syntax:"*";inherits:false}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-shadow-color{syntax:"*";inherits:false}@property --tw-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-shadow-color{syntax:"*";inherits:false}@property --tw-inset-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-ring-color{syntax:"*";inherits:false}@property --tw-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-ring-color{syntax:"*";inherits:false}@property --tw-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-ring-inset{syntax:"*";inherits:false}@property --tw-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0}@property --tw-ring-offset-color{syntax:"*";inherits:false;initial-value:#fff}@property --tw-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}</style>
+<style id="ui">
+/* Phase 39：CJK 字距与渲染优化（解决字紧凑/重叠观感）——全局微调，build_ui.py 不覆盖本块 */
+body{letter-spacing:.012em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+/* Phase 39：行内可换行文字统一宽松行高，避免小字号贴行 */
+.leading-loose-inline{line-height:1.7}
+/* ===== 按钮组件（Phase 10）：图标 + 渐变 + 阴影 + 微交互 ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.375rem;border-radius:.5rem;font-size:13px;font-weight:500;line-height:1;padding:.55rem .95rem;cursor:pointer;border:1px solid transparent;transition:filter .15s ease,box-shadow .15s ease,transform .1s ease,background-color .15s ease,border-color .15s ease;user-select:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;flex-shrink:0}
+.btn:active{transform:scale(.96)}
+.btn:focus-visible{outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(0,0,0,.35)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-sm{font-size:12px;padding:.32rem .6rem;border-radius:.45rem}
+.btn-sm svg{width:13px;height:13px}
+/* 顶部工具栏紧凑变体：保证 5 个按钮一行放得下 */
+.btn-bar{font-size:12px;padding:.45rem .7rem}
+.btn-bar svg{width:13px;height:13px}
+.btn-solid{color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.22)}
+.btn-solid:hover{filter:brightness(1.06);box-shadow:0 3px 8px -2px rgba(0,0,0,.25)}
+.btn-green{background:linear-gradient(180deg,#22c55e,#16a34a);border-color:#15803d}
+.btn-orange{background:linear-gradient(180deg,#f97316,#ea580c);border-color:#c2410c}
+.btn-blue{background:linear-gradient(180deg,#3b82f6,#2563eb);border-color:#1d4ed8}
+.btn-indigo{background:linear-gradient(180deg,#6366f1,#4f46e5);border-color:#4338ca}
+.btn-red{background:linear-gradient(180deg,#ef4444,#dc2626);border-color:#b91c1c}
+.btn-zinc{background:linear-gradient(180deg,#52525b,#3f3f46);border-color:#27272a}
+.btn-ghost{background:#fff;border-color:#d4d4d8;color:#3f3f46;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.btn-ghost:hover{background:#fafafa;border-color:#a1a1aa}
+.btn-danger-ghost{background:#fff;border-color:#fecaca;color:#dc2626}
+.btn-danger-ghost:hover{background:#fef2f2;border-color:#f87171}
+/* 图标方钮（表格行内用，如删除模型行） */
+.btn-icon{width:1.7rem;height:1.7rem;padding:0;border-radius:.45rem;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent;transition:all .15s ease;flex-shrink:0}
+.btn-icon svg{width:14px;height:14px}
+/* 确认弹窗彩色图标圆 */
+.ic{width:2.5rem;height:2.5rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic svg{width:1.3rem;height:1.3rem}
+.ic-red{background:#fee2e2;color:#dc2626}
+.ic-orange{background:#ffedd5;color:#ea580c}
+.ic-blue{background:#dbeafe;color:#2563eb}
+.ic-indigo{background:#e0e7ff;color:#4f46e5}
+.ic-green{background:#dcfce7;color:#16a34a}
+/* ===== Phase 54：用量时间统计图表 ===== */
+/* Phase 55：柱状图 hover 数值 tooltip（深色小卡，跟随光标） */
+#chart-tip{position:fixed;z-index:70;pointer-events:none;display:none;background:#18181b;color:#e4e4e7;border:1px solid rgba(255,255,255,.12);border-radius:.5rem;padding:.45rem .6rem;font-size:11px;line-height:1.55;box-shadow:0 6px 18px -4px rgba(0,0,0,.5);white-space:nowrap;max-width:220px}
+#chart-tip b{font-variant-numeric:tabular-nums}
+#chart-tip .tip-row{display:flex;align-items:center;gap:.35rem;margin-top:.15rem}
+#chart-tip .tip-row:first-child{margin-top:0}
+.tip-dot{width:8px;height:8px;border-radius:2px;display:inline-block;flex-shrink:0}
+.bar-col{cursor:default}
+.bar-col:hover .bar-in,.bar-col:hover .bar-out{filter:brightness(1.15)}
+.bar-chart{display:flex;align-items:flex-end;gap:2px;height:110px;width:100%}
+.bar-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:1px;min-width:0;height:100%}
+.bar-in{width:100%;border-radius:2px 2px 0 0;background:linear-gradient(180deg,#818cf8,#6366f1)}
+.bar-out{width:100%;border-radius:2px 2px 0 0;background:linear-gradient(180deg,#38bdf8,#0ea5e9)}
+.bar-x{display:flex;gap:2px;width:100%;margin-top:3px}
+.bar-x span{flex:1;text-align:center;font-size:10px;color:#a1a1aa;white-space:nowrap;overflow:hidden}
+.spark{display:inline-flex;align-items:flex-end;gap:1px;height:14px;width:56px;flex-shrink:0}
+.spark-bar{width:3px;border-radius:1px;background:#818cf8;min-height:2px}
+.spark-bar.z{background:#e4e4e7;min-height:3px}
+.tile{background:#fafafa;border:1px solid #e4e4e7;border-radius:.6rem;padding:.5rem .7rem;min-width:0}
+.tile b{display:block;font-size:18px;line-height:1.15;color:#18181b;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tile span{font-size:11px;color:#71717a;white-space:nowrap}
+.ud-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;margin-bottom:.75rem}
+/* ===== Phase 54：全屏用量大屏（深色仪表盘） ===== */
+.dash-overlay{position:fixed;inset:0;z-index:60;background:radial-gradient(900px 500px at 15% -10%,rgba(99,102,241,.18),transparent),#0d0d14;color:#e4e4e7;overflow:auto}
+.dash-head{display:flex;align-items:center;gap:1rem;padding:.9rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;background:rgba(13,13,20,.92);backdrop-filter:blur(6px);z-index:2}
+.dash-head h3{margin:0;font-size:16px;font-weight:600;color:#fff;white-space:nowrap}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem;padding:1.25rem}
+.dash-card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:.9rem;padding:1rem}
+.dash-card h4{margin:0 0 .25rem;font-size:13px;font-weight:600;color:#f4f4f5;display:flex;align-items:center;gap:.5rem}
+.dash-nums{display:flex;gap:1.2rem;flex-wrap:wrap;margin:.25rem 0 .6rem}
+.dash-nums b{display:block;font-size:24px;line-height:1.1;color:#fff;font-variant-numeric:tabular-nums}
+.dash-nums span{font-size:11px;color:#9ca3af}
+.dash-mut{font-size:12px;color:#9ca3af;font-weight:400}
+.dash-btn{display:inline-flex;align-items:center;gap:.4rem;border-radius:.5rem;font-size:12px;font-weight:500;padding:.45rem .8rem;cursor:pointer;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#e4e4e7;transition:background .15s;white-space:nowrap;flex-shrink:0}
+.dash-btn:hover{background:rgba(255,255,255,.14)}
+.dash-head #dash-updated{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dash-alias{font-size:11px;font-weight:600;background:rgba(16,185,129,.16);color:#6ee7b7;border-radius:.4rem;padding:.15rem .5rem;white-space:nowrap}
+.dash-model-row .bar-chart{height:80px}
+.dash-model-row .bar-x span{color:#71717a} /* 大屏深色背景：横坐标小时标签用浅灰 */
+</style>
+</head>
+<body class="bg-zinc-100 text-zinc-900">
+<main class="max-w-4xl mx-auto px-4 pt-6 pb-6">
+<header class="flex items-center gap-3 mb-2 flex-wrap">
+  <h1 class="text-xl font-semibold">ClaudeRelay <span id="ver" class="text-sm text-zinc-400 font-normal"></span></h1>
+  <select id="dm-select" title="当前使用模型（选中即保存热重载）" class="text-sm px-2 py-1 border border-zinc-300 rounded-md bg-white cursor-pointer" style="max-width:240px"></select>
+  <span id="status" class="text-xs px-2.5 py-0.5 rounded-full font-medium bg-red-100 text-red-800">连接中…</span>
+  <span class="text-sm text-zinc-500" id="uptime"></span>
+</header>
+
+<!-- 顶部操作栏：5 个按钮按颜色区分（绿/橙/蓝/靛/灰），图标 + 渐变；flex-nowrap 保证一行，窄窗口横向滚动兜底 -->
+<div class="bg-white border border-zinc-200 rounded-xl px-3.5 py-3 my-2.5">
+  <div class="flex items-center gap-2 flex-nowrap overflow-x-auto">
+  <button id="save" class="btn btn-bar btn-solid btn-green" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>保存配置</button>
+  <button id="save-restart" class="btn btn-bar btn-solid btn-orange" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>保存配置并重启</button>
+  <button id="update-settings" class="btn btn-bar btn-solid btn-blue" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>更新 claude 配置</button>
+  <button id="update-env" class="btn btn-bar btn-solid btn-indigo" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>更新环境变量</button>
+  <button id="copy-env" class="btn btn-bar btn-solid btn-zinc" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>复制 CC 环境变量命令</button>
+  </div>
+  <!-- 操作反馈：按钮下方独立一行（Phase 20），避免挤压按钮 -->
+  <div id="toast" class="mt-2 text-[13px] min-h-[18px] flex items-center text-zinc-400"></div>
+</div>
+
+<!-- Phase 52：余额情况——Coding Plan 用量 + 余额，独立板块放最前面 -->
+<h2 class="text-sm font-semibold mt-8 mb-2.5 pb-1.5 border-b border-zinc-200 flex items-center gap-2">余额情况 <span class="text-zinc-500 text-xs font-normal">Coding Plan 用量 · DeepSeek 余额</span>
+  <button id="refresh-balance" type="button" class="ml-auto btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>刷新余额/用量</button>
+</h2>
+<div class="bg-white border border-zinc-200 rounded-xl p-3.5 my-2.5">
+  <div id="balance-placeholder" class="text-sm text-zinc-400">暂无余额 / Coding Plan 用量数据</div>
+  <div id="balances" class="text-sm" hidden></div>
+  <div id="coding" class="text-sm mt-2 border-t border-zinc-100 pt-2" hidden></div>
+</div>
+
+<!-- Phase 26：使用情况——调用量/用量统计（Phase 27 重启保留）；Phase 52 余额与 Coding Plan 已抽到上方「余额情况」 -->
+<h2 class="text-sm font-semibold mt-8 mb-2.5 pb-1.5 border-b border-zinc-200 flex items-center gap-2">使用情况 <span class="text-zinc-500 text-xs font-normal">自启动累计 · 每小时/每日明细 · 重启保留</span>
+  <button id="dash-open" type="button" class="ml-auto btn btn-ghost" title="全屏查看每小时/每日用量统计"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>大屏</button>
+  <button id="reset-usage" type="button" class="btn btn-ghost" title="清空所有模型订阅的调用量/用量统计"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>清零用量</button>
+</h2>
+<div class="bg-white border border-zinc-200 rounded-xl p-3.5 my-2.5">
+  <div id="usage" class="text-sm text-zinc-500">加载中…</div>
+</div>
+
+<h2 class="text-sm font-semibold mt-8 mb-2.5 pb-1.5 border-b border-zinc-200 flex items-center gap-2">服务设置</h2>
+<div class="bg-white border border-zinc-200 rounded-xl p-3.5 my-2.5">
+  <div class="grid gap-2.5 sm:grid-cols-3">
+    <label class="flex flex-col text-xs text-zinc-500 gap-1">监听地址<input id="srv-host" type="text" placeholder="127.0.0.1" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+    <label class="flex flex-col text-xs text-zinc-500 gap-1">端口<input id="srv-port" type="number" min="1" max="65535" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+    <label class="flex flex-col text-xs text-zinc-500 gap-1">模型分隔符<input id="srv-sep" type="text" maxlength="4" placeholder="-" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+    <label class="flex flex-col text-xs text-zinc-500 gap-1">桌面卡片刷新<select id="card-refresh" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent cursor-pointer"><option value="1">1 秒</option><option value="2">2 秒</option><option value="3" selected>3 秒</option><option value="5">5 秒</option><option value="10">10 秒</option><option value="30">30 秒</option></select><span class="text-xs leading-loose-inline text-zinc-400">桌面悬浮卡片数据刷新周期，保存即生效（无需重启）</span></label>
+  </div>
+  <label class="flex flex-col text-xs text-zinc-500 gap-1 mt-2.5">当前使用模型（CC 设 claude-relay-model[上下文] 时用它；/model 指定模型则用指定的）
+    <div class="relative" id="dm">
+      <button type="button" id="dm-btn" class="w-full flex items-center gap-2 text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent cursor-pointer">
+        <span id="dm-display" class="flex-1 min-w-0 flex items-center gap-2 text-zinc-500">（未设置 — 用第一个模型订阅的第一个模型）</span>
+        <span class="text-zinc-400 text-xs shrink-0">▾</span>
+      </button>
+      <div id="dm-drop" class="absolute z-50 mt-1 w-full bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden" hidden>
+        <div id="dm-list" class="max-h-64 overflow-auto"></div>
+      </div>
+    </div>
+    <span class="text-xs leading-loose-inline text-zinc-400">选中即保存生效（热重载，claude 运行中也可切换）；CC 发 claude-relay-model[上下文] 时中继用它替换；「更新 claude 配置/环境变量」会把 model、ANTHROPIC_MODEL 及三个任务槽（opus/sonnet/haiku，子代理/compact 用）写成哨兵值（上下文自动取该模型的 context）</span>
+  </label>
+  <label class="flex flex-row items-center gap-2.5 mt-3 cursor-pointer select-none">
+    <input id="auto-start" type="checkbox" class="w-4 h-4 accent-green-600 cursor-pointer">
+    <span class="text-sm font-medium text-zinc-800">开机自启</span>
+    <span class="text-xs leading-loose-inline text-zinc-400">注册到 Windows 启动项，登录后自动运行（不弹窗口）；双击 exe 则自动打开配置页</span>
+  </label>
+  <p class="text-xs leading-loose-inline text-zinc-400 mt-1.5">提示：监听地址/端口修改需<b>重启</b>生效（顶部「保存配置并重启」一键完成）；模型订阅/模型/当前使用模型/开机自启改动保存后<b>立即</b>生效。</p>
+</div>
+
+<h2 class="text-sm font-semibold mt-8 mb-2.5 pb-1.5 border-b border-zinc-200 flex items-center gap-2">模型订阅 <span class="text-zinc-500 text-xs font-normal" id="prov-count"></span>
+  <button id="add-provider" type="button" class="ml-auto btn btn-solid btn-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>添加模型订阅</button></h2>
+<div id="providers"><div class="bg-white border border-zinc-200 rounded-xl p-3.5 text-sm text-zinc-500">加载中…</div></div>
+
+<h2 class="text-sm font-semibold mt-8 mb-2.5 pb-1.5 border-b border-zinc-200 flex items-center gap-2">已注册模型</h2>
+<div class="bg-white border border-zinc-200 rounded-xl p-3.5 my-2.5"><div class="flex flex-wrap gap-2 text-sm text-zinc-500" id="models">加载中…</div></div>
+</main>
+
+<!-- 添加/编辑模型订阅弹窗 -->
+<!-- 通用确认弹窗（保存并重启 / 更新 claude 配置 / 更新环境变量 / 删除模型订阅） -->
+<div class="overlay fixed inset-0 bg-black/40 flex justify-center items-center px-4 z-50" id="confirm-overlay" hidden>
+  <div class="modal bg-white rounded-2xl w-full max-w-md p-5 shadow-xl" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="flex items-start gap-3">
+      <div id="confirm-icon" class="ic ic-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <div class="flex-1 min-w-0">
+        <h3 class="m-0 mb-1.5 text-base font-semibold" id="confirm-title">确认操作</h3>
+        <p class="m-0 text-sm text-zinc-600 whitespace-pre-line leading-relaxed" id="confirm-msg"></p>
+      </div>
+      <button class="close cursor-pointer bg-transparent border-none text-zinc-400 text-[22px] leading-none p-0 hover:text-zinc-600 shrink-0" id="confirm-close" type="button" title="关闭">×</button>
+    </div>
+    <div class="flex gap-2.5 justify-end mt-5">
+      <button id="confirm-cancel" type="button" class="btn btn-ghost">取消</button>
+      <button id="confirm-yes" class="btn btn-solid btn-red" type="button">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay fixed inset-0 bg-black/40 flex justify-center items-start overflow-auto px-4 pt-12 pb-4 z-50" id="overlay" hidden>
+  <div class="modal bg-white rounded-2xl w-full max-w-xl p-5 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h3 class="m-0 mb-4 text-base font-semibold flex justify-between items-center gap-2.5"><span id="modal-title">添加模型订阅</span>
+      <button class="close cursor-pointer bg-transparent border-none text-zinc-400 text-[22px] leading-none p-0 hover:text-zinc-600" id="modal-close" type="button" title="关闭">×</button></h3>
+    <div class="grid sm:grid-cols-2 gap-3">
+      <!-- Phase 38：服务商（必填）——选择后自动填 ID 简写/名称/Base URL/认证，ID 可改；控制台 Cookie 仅讯飞/火山显示 -->
+      <label class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2">服务商（必填，选择后自动填 ID/名称/Base URL/认证，ID 可修改）
+        <select id="m-preset" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+          <option value="">选择服务商…</option>
+          <option value="ds">DeepSeek</option>
+          <option value="xf">讯飞星辰</option>
+          <option value="hs">火山方舟</option>
+          <option value="kb">Kimi</option>
+          <option value="glm">GLM</option>
+          <option value="oc">OpenCode</option>
+          <option value="gemini">Gemini</option>
+          <option value="anthropic">Anthropic 官方</option>
+          <option value="custom">自定义</option>
+        </select>
+      </label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1">ID（前缀，唯一）<input id="m-id" placeholder="如 ds" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1">显示名<input id="m-name" placeholder="如 DeepSeek" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2">Base URL（Anthropic 兼容端点；Gemini 原生协议填 API 根地址，如 https://generativelanguage.googleapis.com）<input id="m-base" placeholder="https://api.deepseek.com/anthropic" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2">API Key<input id="m-key" type="password" placeholder="sk-..." autocomplete="off" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1">认证方式<select id="m-auth" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+        <option value="bearer">Authorization: Bearer</option>
+        <option value="x-api-key">x-api-key</option>
+        <option value="x-goog-api-key">x-goog-api-key（Gemini）</option>
+      </select></label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1">上游协议<select id="m-protocol" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+        <option value="anthropic">Anthropic（纯透传）</option>
+        <option value="openai">OpenAI（自动翻译，如 OpenRouter/Qwen 百炼）</option>
+        <option value="gemini">Gemini（自动翻译，原生 generateContent）</option>
+      </select></label>
+      <label class="flex flex-row items-center gap-2 text-[13px] text-zinc-900 mt-2 sm:col-span-2"><input id="m-strip" type="checkbox" class="accent-green-600"> 剥离 anthropic-beta 头（默认透传）</label>
+      <label class="flex flex-row items-center gap-2 text-[13px] text-zinc-900 mt-2 sm:col-span-2"><input id="m-rewrite" type="checkbox" checked class="accent-green-600"> 响应流回写带前缀的 model 名</label>
+      <label class="flex flex-row items-center gap-2 text-[13px] text-zinc-900 mt-2 sm:col-span-2"><input id="m-show-usage" type="checkbox" checked class="accent-green-600"> 显示余额/用量（使用情况卡片、余额、Coding Plan、用量大屏与桌面卡片；关闭后统计照常记录）</label>
+      <!-- Phase 28/30/48：Coding Plan 用量查询配置（可选）——火山方舟 / 讯飞星辰 / OpenCode -->
+      <label id="m-cookie-wrap" class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2" hidden>控制台 Cookie（可选，查 Coding Plan 用量；掩码保存，留空则查询时自动读浏览器；仅服务商选讯飞/火山/OpenCode 时显示）<textarea id="m-cookie" rows="2" placeholder="火山方舟：浏览器打开 console.volcengine.com → F12 → Network 任选请求 → 复制 Cookie 请求头；讯飞星辰：打开 maas.xfyun.cn；OpenCode：打开 opencode.ai 同样操作（如 sessionid=...; __Secure-...）" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></textarea></label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2">用量查询 URL（可选，默认按服务商推导；OpenCode 必填 /go 页地址）<input id="m-usage-url" placeholder="留空默认 火山方舟 https://console.volcengine.com/api/top/ark/cn-beijing/2024-01-01/GetCodingPlanUsage / 讯飞 https://maas.xfyun.cn/api/v1/gpt-finetune/coding-plan/list?page=1&amp;size=6 / OpenCode https://opencode.ai/console/{工作区ID}/go" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+      <div class="sm:col-span-2">
+        <div class="text-xs text-zinc-500 mb-1">模型列表 — CC 里用「{id}-别名」调用（如 ds-flash）；只填一行则别名同真实名；「上游协议」可按模型覆盖上面选的服务商级协议（跟随=用服务商级）</div>
+        <div class="border border-zinc-300 rounded-md overflow-hidden bg-white">
+          <div class="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_110px_120px_30px] gap-2 px-2.5 py-1.5 bg-zinc-50 text-xs text-zinc-500 border-b border-zinc-200 items-center">
+            <span>模型别名</span><span>服务商真实模型名</span><span>上下文大小</span><span>上游协议</span><span></span>
+          </div>
+          <div id="m-model-rows"></div>
+        </div>
+        <button id="m-add-model" type="button" class="mt-1.5 btn btn-sm btn-solid btn-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>添加模型</button>
+      </div>
+    </div>
+    <p class="text-xs leading-loose-inline text-zinc-400 mt-2">Key 保持掩码（含 *）则沿用原值；新模型订阅必须填真实 Key</p>
+    <p id="m-error" class="text-[12px] text-red-600 mt-2" role="alert" hidden></p>
+    <div class="flex gap-2.5 justify-end mt-4">
+      <button id="m-cancel" type="button" class="btn btn-ghost">取消</button>
+      <button id="m-ok" class="btn btn-solid btn-green" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>保存模型订阅</button>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 54：模型用量详情弹窗（每小时/每日图表） -->
+<div class="overlay fixed inset-0 bg-black/40 flex justify-center items-start overflow-auto px-4 pt-12 pb-4 z-50" id="usage-detail-overlay" hidden>
+  <div class="modal bg-white rounded-2xl w-full max-w-4xl p-5 shadow-xl" role="dialog" aria-modal="true" aria-labelledby="ud-title">
+    <h3 class="m-0 mb-4 text-base font-semibold flex justify-between items-center gap-2.5"><span id="ud-title" class="flex items-center gap-1.5 flex-wrap"></span>
+      <button class="close cursor-pointer bg-transparent border-none text-zinc-400 text-[22px] leading-none p-0 hover:text-zinc-600 shrink-0" id="ud-close" type="button" title="关闭">×</button></h3>
+    <div id="ud-body" class="text-sm text-zinc-600"></div>
+  </div>
+</div>
+
+<!-- Phase 55：柱状图 hover 数值 tooltip（全局，跟随光标） -->
+<div id="chart-tip" aria-hidden="true"></div>
+
+<!-- Phase 54：全屏用量大屏（深色仪表盘） -->
+<div id="dashboard-overlay" class="dash-overlay" hidden>
+  <div class="dash-head">
+    <h3>ClaudeRelay 用量大屏</h3>
+    <span id="dash-updated" class="dash-mut"></span>
+    <span class="flex-1"></span>
+    <button id="dash-refresh" type="button" class="dash-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>刷新</button>
+    <button id="dash-close" type="button" class="dash-btn">退出大屏 (Esc)</button>
+  </div>
+  <div id="dash-body" class="dash-grid"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let providers = [];
+let server = { host:'127.0.0.1', port:8787, separator:'-' };
+let editIdx = null;   // null = 添加新模型订阅；数字 = 编辑 providers[数字]
+let modelDetails = []; // /api/status 的 model_details（含上下文），供默认模型下拉与已注册模型区
+/* Phase 38：服务商预设——添加/编辑模型订阅时「服务商」下拉，自动填 ID 简写/名称/Base URL/认证（ID 可改） */
+const PRESETS = [
+  { id:'ds', name:'DeepSeek', base:'https://api.deepseek.com/anthropic', auth:'bearer' },
+  { id:'xf', name:'讯飞星辰', base:'https://maas-coding-api.cn-huabei-1.xf-yun.com/anthropic', auth:'bearer' },
+  { id:'hs', name:'火山方舟', base:'https://ark.cn-beijing.volces.com/api/coding', auth:'bearer' },
+  { id:'kb', name:'Kimi', base:'https://api.moonshot.cn/anthropic', auth:'bearer' },
+  { id:'glm', name:'GLM', base:'https://open.bigmodel.cn/api/anthropic', auth:'bearer' },
+  { id:'oc', name:'OpenCode', base:'https://opencode.ai/zen/go/v1', auth:'bearer' },
+  { id:'gemini', name:'Gemini', base:'https://generativelanguage.googleapis.com', auth:'x-goog-api-key', protocol:'gemini' },
+  { id:'anthropic', name:'Anthropic 官方', base:'https://api.anthropic.com', auth:'x-api-key' },
+];
+/* Phase 38：服务商名称映射（id → 显示名）——使用情况/列表/下拉统一用名称，不再显示 ID 简写 */
+function provName(id){
+  const p = providers.find(x=>x.id===id);
+  return (p && p.name) || id || '?';
+}
+/* Phase 38：编辑弹窗推断已有订阅属于哪个服务商（先按 id 匹配预设，再按 base_url 关键词回退，否则自定义） */
+function presetOfProvider(p){
+  if(PRESETS.some(x=>x.id===p.id)) return p.id;
+  const url = p.base_url || '';
+  if(url.includes('deepseek')) return 'ds';
+  if(url.includes('xfyun.cn') || url.includes('xf-yun.com')) return 'xf';
+  if(url.includes('volces.com') || url.includes('volcengine')) return 'hs';
+  if(url.includes('moonshot')) return 'kb';
+  if(url.includes('bigmodel')) return 'glm';
+  if(url.includes('opencode')) return 'oc';
+  if(url.includes('generativelanguage.googleapis.com')) return 'gemini';
+  if(url.includes('anthropic')) return 'anthropic';
+  return 'custom';
+}
+/* Phase 38：控制台 Cookie 输入框仅「讯飞星辰 / 火山方舟 / OpenCode」显示（Phase 48 加 OpenCode） */
+function toggleCookieField(){
+  const v = $('m-preset').value;
+  $('m-cookie-wrap').hidden = !(v==='xf' || v==='hs' || v==='oc');
+}
+let defaultModel = ''; // 已选默认模型完整别名（ds-flash）
+let dmOpen = false;    // 默认模型下拉是否展开
+
+function toast(msg, ok=true){
+  const t=$('toast'); t.textContent=msg;
+  // 反馈固定在按钮下方独立行（Phase 20），不挤压按钮
+  t.className='mt-2 text-[13px] min-h-[18px] flex items-center ' + (ok?'text-green-700':'text-red-700');
+  clearTimeout(toast._h); toast._h=setTimeout(()=>{t.textContent='';},5000);
+}
+/* 弹窗内表单校验错误（Phase 21）：显示在弹窗里——主界面 toast 被弹窗遮罩盖住看不到 */
+function modalError(msg){
+  const e=$('m-error'); e.textContent=msg; e.hidden=false;
+  clearTimeout(modalError._h); modalError._h=setTimeout(()=>{ e.hidden=true; },6000);
+}
+/* 校验失败：高亮对应输入框（红边框 + focus）+ 弹窗内红字提示 */
+function fieldError(id, msg){
+  const el=$(id); el.style.borderColor='#ef4444'; el.focus();
+  modalError(msg);
+}
+function esc(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtUp(s){ const m=Math.floor(s/60),h=Math.floor(m/60); return h?`${h}h${m%60}m`:(m?`${m}m${s%60}s`:`${s}s`); }
+/* 模型条目归一化：配置里既可能是字符串，也可能是 {alias,real,context,protocol?} 对象 */
+function modelAliasOf(m){ return (typeof m==='string') ? m : (m.alias||''); }
+function modelRealOf(m){ return (typeof m==='string') ? m : (m.real||modelAliasOf(m)); }
+function modelCtxOf(m){ return (typeof m==='string') ? 200000 : (Number(m.context)||200000); }
+function modelProtoOf(m){ return (typeof m==='object' && m && m.protocol) || ''; }
+function fmtModel(m){ const a=modelAliasOf(m), r=modelRealOf(m); return (r&&r!==a)?`${a}=${r}`:a; }
+/* 上下文大小美化：200000→200K，1000000→1M */
+function fmtCtx(n){
+  n = Number(n)||0;
+  if(n>=1e6 && n%1e6===0) return (n/1e6)+'M';
+  if(n>=1000 && n%1000===0) return (n/1000)+'K';
+  if(n>=1000) return (n/1000).toFixed(1).replace(/\.0$/,'')+'K';
+  return String(n);
+}
+/* Phase 22：上下文后缀（小写，CC 约定）——1e6→1m、千整倍→Nk、否则四舍五入 k；与后端 fmt_ctx_suffix 一致 */
+function ctxSuffix(n){
+  n = Number(n)||0;
+  if(n % 1000000 === 0) return (n/1000000)+'m';
+  if(n % 1000 === 0) return (n/1000)+'k';
+  if(n >= 1000) return Math.round(n/1000)+'k';
+  return '';
+}
+/* 按完整别名查模型详情（含未保存的 providers 改动） */
+function findDetail(full){
+  let d = modelDetails.find(x=>x.full===full);
+  if(d) return d;
+  const sep = server.separator || '-';
+  for(const p of providers){
+    for(const m of (p.models||[])){
+      if(p.id+sep+modelAliasOf(m)===full) return {context: modelCtxOf(m)};
+    }
+  }
+  return null;
+}
+/* 完整别名 → 哨兵值 claude-relay-model[上下文]（无上下文则裸哨兵） */
+function sentinelOf(full){
+  const d = findDetail(full);
+  const s = d ? ctxSuffix(d.context) : '';
+  return 'claude-relay-model' + (s ? '['+s+']' : '');
+}
+/* 主流上下文大小下拉选项 */
+const CTX_OPTIONS = [
+  [8000,'8K'],[16000,'16K'],[32768,'32K'],[65536,'64K'],[128000,'128K'],
+  [200000,'200K'],[256000,'256K'],[512000,'512K'],[1000000,'1M'],[10000000,'10M'],
+];
+/* Feather 风格 SVG 图标（stroke 线性），供按钮注入 */
+const S={
+  check:'<polyline points="20 6 9 17 4 12"/>',
+  refresh:'<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+  term:'<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  plus:'<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  edit:'<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>',
+  trash:'<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  warn:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  info:'<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+};
+function svg(paths){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+paths+'</svg>';
+}
+
+async function api(path, opts){
+  try {
+    const r = await fetch(path, opts);
+    return r.json().catch(()=>({}));
+  } catch(e){ toast('请求失败: '+e,false); return {}; }
+}
+
+async function load(){
+  const [cfg, st] = await Promise.all([api('/api/config'), api('/api/status')]);
+  if (cfg.server){ server = cfg.server; }
+  if (Array.isArray(cfg.providers)){ providers = cfg.providers; }
+  $('srv-host').value = server.host || '';
+  $('srv-port').value = server.port || '';
+  $('srv-sep').value = server.separator || '-';
+  $('auto-start').checked = !!server.auto_start;
+  $('card-refresh').value = server.card_refresh_secs || 3;
+  modelDetails = Array.isArray(st.model_details) ? st.model_details : [];
+  defaultModel = server.default_model || '';
+  updateDmDisplay();
+  renderDmSelect();
+  $('ver').textContent = 'v' + (st.version || '');
+  $('status').textContent = st.running ? '● 运行中' : '○ 未运行';
+  $('status').className = 'text-xs px-2.5 py-0.5 rounded-full font-medium ' + (st.running ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800');
+  $('uptime').textContent = st.uptime_secs != null ? `运行 ${fmtUp(st.uptime_secs)}` : '';
+  renderProviders();
+  renderModels(modelDetails);
+  loadUsage();
+  loadBalance();
+  loadCodingPlan();
+}
+
+/* ---------- 模型订阅列表 ---------- */
+function renderProviders(){
+  const box=$('providers'); box.innerHTML='';
+  $('prov-count').textContent = providers.length ? `（${providers.length} 个）` : '';
+  if(!providers.length){
+    box.innerHTML='<div class="bg-white border border-zinc-200 rounded-xl p-3.5 text-sm text-zinc-500">暂无模型订阅 — 点右上「＋ 添加模型订阅」开始配置</div>';
+    return;
+  }
+  const list=document.createElement('div'); list.className='flex flex-col gap-2';
+  providers.forEach((p,i)=>{
+    const row=document.createElement('div'); row.className='flex items-center gap-3 flex-wrap bg-white border border-zinc-200 rounded-xl px-3.5 py-2.5';
+
+    const id=document.createElement('div'); id.className='font-semibold text-[13px] bg-green-50 text-green-700 rounded-md px-3 py-1 min-w-[64px] text-center shrink-0 whitespace-nowrap';
+    id.textContent = p.name || p.id || '?'; // Phase 38：简写 → 服务商名称
+
+    const meta=document.createElement('div'); meta.className='flex-1 min-w-[180px]';
+    const name=document.createElement('div'); name.className='text-sm font-semibold';
+    name.textContent = p.name || p.id || '未命名';
+    const sub=document.createElement('div'); sub.className='text-zinc-500 text-xs mt-0.5 truncate';
+    sub.textContent = ((p.models||[]).map(m=> fmtModel(m) + (modelCtxOf(m)!==200000 ? `（${fmtCtx(modelCtxOf(m))}）` : '')).join(' · ') || '未配置模型') + (p.base_url ? `　${p.base_url}` : '');
+    sub.title = sub.textContent; // 单行截断，悬停显示全文
+    meta.appendChild(name); meta.appendChild(sub);
+
+    const btns=document.createElement('div'); btns.className='flex gap-1.5';
+    const editB=document.createElement('button'); editB.type='button'; editB.className='btn btn-sm btn-ghost'; editB.innerHTML=svg(S.edit)+'编辑';
+    const delB=document.createElement('button'); delB.type='button'; delB.className='btn btn-sm btn-danger-ghost'; delB.innerHTML=svg(S.trash)+'删除';
+    editB.addEventListener('click', ()=>openModal(i));
+    delB.addEventListener('click', ()=>delProvider(i, p));
+    btns.appendChild(editB); btns.appendChild(delB);
+
+    row.appendChild(id); row.appendChild(meta); row.appendChild(btns);
+    list.appendChild(row);
+  });
+  box.appendChild(list);
+}
+
+/* 删除模型订阅：确认弹窗（红色警示）+ 确认后持久化 PUT /api/config */
+// Phase 21：模型订阅可全部删除（后端已放行空配置），删除最后一个后留空、去列表添加即可。
+function delProvider(i, p){
+  const names=(p.models||[]).slice(0,3).map(m=>`${p.id}-${modelAliasOf(m)}`).join('、');
+  confirmAction({
+    title: '删除模型订阅',
+    msg: `确定删除模型订阅「${p.id}」吗？\n将移除其 ${(p.models||[]).length} 个模型${names?`（${names}${(p.models||[]).length>3?'…':''}）`:''}，并立即保存生效。`,
+    ok: '删除', color: 'red',
+    cb: async ()=>{
+      providers.splice(i,1);
+      // 默认模型指向被删服务商时一并清除
+      if(defaultModel && !providers.some(pr=> (pr.models||[]).some(m=> `${pr.id}-${modelAliasOf(m)}`===defaultModel))) defaultModel='';
+      const r = await api('/api/config', { method:'PUT', headers:{'content-type':'application/json'}, body: JSON.stringify(collect()) });
+      if(!r.ok){ toast('删除失败：' + (r.error || '未知错误'), false); load(); return; }
+      toast(`已删除模型订阅「${p.id}」并保存`);
+      load();
+    },
+  });
+}
+
+/* ---------- 弹窗（添加 / 编辑共用） ---------- */
+function openModal(idx){
+  editIdx = idx;
+  const p = idx===null
+    ? { id:'', name:'', base_url:'', api_key:'', auth:'bearer', models:[], strip_beta:false, rewrite_model:true }
+    : providers[idx];
+  $('modal-title').textContent = idx===null ? '添加模型订阅' : `编辑模型订阅 · ${p.id||''}`;
+  $('m-preset').value = idx===null ? '' : presetOfProvider(p); // Phase 38：新增=必选服务商；编辑=按 id/base_url 推断
+  toggleCookieField(); // 控制台 Cookie 仅服务商为讯飞/火山时显示
+  $('m-id').value = p.id || '';
+  $('m-name').value = p.name || '';
+  $('m-base').value = p.base_url || '';
+  $('m-key').value = p.api_key || '';
+  $('m-auth').value = ['x-api-key','x-goog-api-key'].includes(p.auth) ? p.auth : 'bearer';
+  $('m-protocol').value = ['openai','gemini'].includes(p.protocol) ? p.protocol : 'anthropic';
+  $('m-strip').checked = !!p.strip_beta;
+  $('m-rewrite').checked = p.rewrite_model !== false;
+  $('m-show-usage').checked = !p.hide_usage; // Phase 57：hide_usage 缺省（undefined）→ 显示
+  $('m-cookie').value = p.console_cookie || '';
+  $('m-usage-url').value = p.console_usage_url || '';
+
+  const rows=$('m-model-rows'); rows.innerHTML='';
+  const list = (p.models||[]).length ? p.models : [null];
+  list.forEach(m=> m===null
+    ? rows.appendChild(modelRow('', '', 200000, ''))
+    : rows.appendChild(modelRow(modelAliasOf(m), modelRealOf(m), modelCtxOf(m), modelProtoOf(m))));
+
+  // Phase 21：每次打开重置弹窗内校验错误与字段高亮
+  $('m-error').hidden=true;
+  ['m-id','m-name','m-base','m-key','m-preset'].forEach(i=> $(i).style.borderColor='');
+  $('overlay').hidden=false;
+  setTimeout(()=>{ ($('m-id')||$('m-name')).focus(); }, 0);
+}
+function closeModal(){ $('overlay').hidden=true; editIdx=null; }
+
+async function modalSave(){
+  // Phase 21：字段校验错误显示在弹窗内（红字 + 对应字段红边框），主界面 toast 在遮罩下看不到
+  ['m-id','m-name','m-base','m-key','m-preset'].forEach(i=> $(i).style.borderColor='');
+  const preset = $('m-preset').value;
+  if(!preset){ fieldError('m-preset','请选择服务商（必填）'); return; } // Phase 38：服务商必填
+  const id = $('m-id').value.trim();
+  const base = $('m-base').value.trim();
+  const key = $('m-key').value.trim();
+  if(!id){ fieldError('m-id','模型订阅 ID 不能为空'); return; }
+  if(providers.some((p,i)=> p.id===id && i!==editIdx)){ fieldError('m-id','ID 已存在，请换一个唯一前缀'); return; }
+  if(!base){ fieldError('m-base','Base URL 不能为空'); return; }
+  // Phase 49：掩码判据 startsWith('*')——掩码值以 `*` 开头；真实 Key 含 `*` 不算掩码
+  if(editIdx===null && key.startsWith('*')){ fieldError('m-key','新模型订阅不能填掩码 Key，请填真实 Key'); return; }
+  if(!key){ fieldError('m-key','API Key 不能为空'); return; }
+
+  const models=[...$('m-model-rows').querySelectorAll('.model-row')]
+    .map(row=>{
+      const ins=row.querySelectorAll('input');
+      const alias=ins[0].value.trim();
+      const real=ins[1].value.trim();
+      const ctx=Number(row.querySelector('select.ctx-sel').value)||200000;
+      const proto=row.querySelector('select.proto-sel').value;
+      if(!alias && !real) return null;
+      const a=alias||real, r=real||alias;
+      const o={ alias:a, real:r, context:ctx };
+      if(proto) o.protocol=proto; // Phase 60：空=跟随服务商级协议
+      return o;
+    })
+    .filter(Boolean);
+  const p = {
+    id,
+    name: $('m-name').value.trim(),
+    base_url: base,
+    api_key: key,
+    auth: $('m-auth').value,
+    protocol: $('m-protocol').value,
+    strip_beta: $('m-strip').checked,
+    rewrite_model: $('m-rewrite').checked,
+    hide_usage: !$('m-show-usage').checked, // Phase 57：false 时省写，勾选=显示（默认）
+    console_cookie: $('m-cookie').value.trim(),
+    console_usage_url: $('m-usage-url').value.trim(),
+    models,
+  };
+  // 保存即持久化（PUT /api/config + 热重载）：避免「弹窗只改内存、刷新后恢复」。
+  const body = collect();
+  if(editIdx===null){ body.providers.push(p); } else { body.providers[editIdx]=p; }
+  const r = await api('/api/config', {
+    method:'PUT', headers:{'content-type':'application/json'}, body: JSON.stringify(body)
+  });
+  if(!r.ok){ modalError('保存失败：' + (r.error || '未知错误')); return; } // 失败则留在弹窗
+  providers = body.providers;
+  closeModal();
+  renderProviders();
+  const w = r.warnings && r.warnings.length ? `；告警：${r.warnings.join('；')}` : '';
+  toast(`已保存并热重载（${body.providers.length} 个模型订阅）${w}`);
+  load();
+}
+
+/* 上下文大小下拉（默认 200K）；值不在主流列表时自动补一个自定义项 */
+function ctxSelect(value){
+  const s=document.createElement('select');
+  s.className='text-sm px-1.5 py-1 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent cursor-pointer w-full';
+  let has=false;
+  CTX_OPTIONS.forEach(([v,label])=>{
+    const o=document.createElement('option'); o.value=v; o.textContent=label;
+    if(String(v)===String(value)){ o.selected=true; has=true; }
+    s.appendChild(o);
+  });
+  if(!has && value){
+    const o=document.createElement('option'); o.value=value; o.textContent=fmtCtx(value); o.selected=true;
+    s.appendChild(o);
+  }
+  return s;
+}
+
+/* 弹窗内模型行：四列（别名 / 真实模型名 / 上下文 / 上游协议可覆盖）+ 删除按钮 */
+function modelRow(alias, real, ctx, proto){
+  const row=document.createElement('div');
+  row.className='model-row grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)_110px_120px_30px] gap-2 px-2.5 py-1.5 items-center border-b border-zinc-100 last:border-b-0';
+  const a=document.createElement('input'); a.type='text'; a.value=alias||''; a.placeholder='如 flash';
+  a.className='text-sm px-2 py-1 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent min-w-0';
+  const r=document.createElement('input'); r.type='text'; r.value=real||''; r.placeholder='如 deepseek-v4-flash';
+  r.className='text-sm px-2 py-1 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent min-w-0';
+  const c=ctxSelect(ctx||0); c.classList.add('ctx-sel');
+  const ps=document.createElement('select');
+  ps.className='text-sm px-1.5 py-1 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent cursor-pointer w-full proto-sel';
+  [['','跟随服务商'],['anthropic','Anthropic 透传'],['openai','OpenAI'],['gemini','Gemini']].forEach(([v,label])=>{
+    const o=document.createElement('option'); o.value=v; o.textContent=label;
+    if(String(v)===String(proto||'')) o.selected=true;
+    ps.appendChild(o);
+  });
+  const del=document.createElement('button'); del.type='button'; del.title='删除该模型';
+  del.className='btn-icon btn-danger-ghost';
+  del.innerHTML=svg(S.trash);
+  del.addEventListener('click', ()=> row.remove());
+  row.appendChild(a); row.appendChild(r); row.appendChild(c); row.appendChild(ps); row.appendChild(del);
+  return row;
+}
+
+/* ---------- 保存 / 复制环境变量 ---------- */
+function collect(){
+  const srv = {
+    host: $('srv-host').value.trim(),
+    port: parseInt($('srv-port').value, 10),
+    separator: $('srv-sep').value.trim() || '-',
+    default_model: defaultModel,
+    auto_start: $('auto-start').checked,
+    card_refresh_secs: parseInt($('card-refresh').value, 10) || 3,
+  };
+  return { server: srv, providers };
+}
+
+async function save(){
+  const body = collect();
+  // Phase 21：允许保存空模型订阅（配置页可添加）；后端已放行
+  const r = await api('/api/config', {
+    method:'PUT', headers:{'content-type':'application/json'}, body: JSON.stringify(body)
+  });
+  if(r.ok){
+    const w = r.warnings && r.warnings.length ? `；告警：${r.warnings.join('；')}` : '';
+    toast(`已保存 ${r.providers} 个模型订阅，${r.aliases.length} 个模型，已热重载${w}`);
+    load();
+  } else {
+    toast('保存失败：' + (r.error || '未知错误'), false);
+  }
+}
+
+function saveRestart(){
+  const body = collect();
+  // Phase 21：允许保存空模型订阅
+  const srv = body.server;
+  confirmAction({
+    title: '确认保存并重启',
+    msg: `将把当前配置写入磁盘，然后重启 relay（host/port 改动此时生效）。\n监听 http://${srv.host}:${srv.port}，重启约 1 秒不可用，Claude Code 会自动恢复。`,
+    ok: '保存并重启', color: 'orange',
+    cb: doSaveRestart,
+  });
+}
+async function doSaveRestart(){
+  const body = collect();
+  const r = await api('/api/config', {
+    method:'PUT', headers:{'content-type':'application/json'}, body: JSON.stringify(body)
+  });
+  if(!r.ok){ toast('保存失败：' + (r.error || '未知错误'), false); return; }
+  const r2 = await api('/api/restart', { method:'POST' });
+  if(r2.restarting){
+    toast('已保存，正在重启（约 1 秒）…');
+    setTimeout(()=> location.reload(), 2500);
+  } else {
+    toast('重启失败：' + (r2.error || '未知错误'), false);
+  }
+}
+
+/* 更新 claude 配置 / 更新环境变量：都写 ~/.claude/settings.json（顶层 model + env 三键）。
+   Phase 22：MODEL 写哨兵值 claude-relay-model[上下文]，CC 发回后中继用「当前使用模型」替换。 */
+function updateSettings(which){
+  const body = collect();
+  const srv = body.server;
+  let full = srv.default_model || '';
+  if(!full && body.providers[0]){
+    full = `${body.providers[0].id}-${modelAliasOf(body.providers[0].models[0])}`;
+  }
+  const model = sentinelOf(full);
+  const isEnv = which === 'env';
+  const title = isEnv ? '确认更新环境变量' : '确认更新 claude 配置';
+  const msg =
+    `将把模型设为哨兵值并写入 ~/.claude/settings.json（顶层 model + env，其余内容全部保留）：\n` +
+    `  ANTHROPIC_BASE_URL = http://${srv.host}:${srv.port}\n` +
+    `  ANTHROPIC_API_KEY  = relay-dummy\n` +
+    `  model / ANTHROPIC_MODEL = ${model}\n` +
+    `  任务槽 OPUS/SONNET/HAIKU = ${model}（子代理/compact 用）\n` +
+    `CC 发 ${model} 时中继自动用「当前使用模型」${full || '（未设置，回退第一个）'} 替换；也可在 CC 里 /model 直接指定模型。`;
+  confirmAction({
+    title, msg, ok: '确认更新', color: isEnv ? 'indigo' : 'blue',
+    cb: ()=> doUpdateSettings(body, model),
+  });
+}
+async function doUpdateSettings(body, model){
+  const r = await api('/api/config', {
+    method:'PUT', headers:{'content-type':'application/json'}, body: JSON.stringify(body)
+  });
+  if(!r.ok){ toast('保存失败：' + (r.error || '未知错误'), false); return; }
+  const r2 = await api('/api/update-settings', { method:'POST' });
+  if(r2.ok){
+    toast(`已更新 claude settings（BASE_URL=${r2.base_url} / MODEL=${r2.model}）`);
+    load();
+  } else {
+    toast('更新失败：' + (r2.error || '未知错误'), false);
+  }
+}
+
+function copyEnv(){
+  const body = collect();
+  const srv = body.server;
+  const first = body.providers[0];
+  let full = srv.default_model || '';
+  if(!full && first && first.models.length){
+    full = `${first.id}-${modelAliasOf(first.models[0])}`;
+  }
+  // Phase 22：ANTHROPIC_MODEL 用哨兵值，中继替换为当前使用模型
+  const model = full ? sentinelOf(full) : '';
+  const lines = [
+    `set ANTHROPIC_BASE_URL=http://${srv.host||'127.0.0.1'}:${srv.port||8787}`,
+    'set ANTHROPIC_API_KEY=relay-dummy',
+  ];
+  if(model){
+    lines.push(`set ANTHROPIC_MODEL=${model}`);
+    // Phase 24：任务槽也指哨兵——子代理/compact 不跟 /model，裸名（claude-opus-5 等）会 400
+    lines.push(`set ANTHROPIC_DEFAULT_OPUS_MODEL=${model}`);
+    lines.push(`set ANTHROPIC_DEFAULT_SONNET_MODEL=${model}`);
+    lines.push(`set ANTHROPIC_DEFAULT_HAIKU_MODEL=${model}`);
+  }
+  lines.push('claude');
+  const text = lines.join('\r\n');
+  const done = ()=> toast('已复制。粘贴到 cmd 回车即可启动 Claude Code（当前使用模型在配置页切换）');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done, ()=> prompt('复制以下内容：', text));
+  } else {
+    prompt('复制以下内容：', text);
+  }
+}
+
+function renderModels(details){
+  const box=$('models'); box.innerHTML='';
+  if(!details || !details.length){ box.innerHTML='<span class="text-sm text-zinc-500">暂无模型 — 先配置模型订阅并保存</span>'; return; }
+  details.forEach(d=>{
+    const s=document.createElement('span');
+    s.className='chip bg-green-50 text-green-700 rounded-full px-2 py-0.5 text-xs inline-flex items-center gap-2';
+    s.title=`${d.full} → ${d.real}（${provName(d.provider)}）`;
+    const name=document.createElement('span'); name.textContent=d.full;
+    const ctx=document.createElement('span'); ctx.className='text-[11px] font-semibold text-indigo-700 bg-indigo-50 rounded-full px-2 py-0.5'; ctx.textContent=fmtCtx(d.context);
+    s.appendChild(name); s.appendChild(ctx); box.appendChild(s);
+  });
+}
+
+/* ---------- 使用情况（Phase 26/54）：调用量/用量 + 每小时/每日时间桶 ---------- */
+/* Phase 55：tokens 中文单位（万为主）——1.2千 / 12.3万 / 123.5万 / 1234.6万 / 1.2亿 */
+function fmtTokens(n){
+  if(n==null) return '0';
+  n = Number(n);
+  if(n<0) return '0';
+  if(n>=1e8) return trim1(n/1e8)+'亿';
+  if(n>=1e4) return trim1(n/1e4)+'万';
+  if(n>=1e3) return trim1(n/1e3)+'千';
+  return String(n);
+}
+function trim1(x){ return (Math.round(x*10)/10).toFixed(1).replace(/\.0$/,''); }
+/* Phase 54：本地日零点 unix 秒（与后端 Windows 时区偏置一致） */
+function localDayStartTs(tsSec){
+  const d=new Date(tsSec*1000);
+  return Math.floor(new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()/1000);
+}
+function hoursSorted(m){ return (m.time && m.time.hours || []).slice().sort((a,b)=>a.ts-b.ts); }
+function daysSorted(m){ return (m.time && m.time.days || []).slice().sort((a,b)=>a.ts-b.ts); }
+/* 今日桶：days 中 ts === 本地日零点（无则 0） */
+function todayStat(m){
+  const today=localDayStartTs(Date.now()/1000);
+  const d=daysSorted(m).find(x=>x.ts===today);
+  return d || {requests:0, input_tokens:0, output_tokens:0};
+}
+/* 末 24 条小时桶迷你 sparkline（输入+输出叠加高度，空桶淡灰） */
+function sparkBars(hours){
+  const arr=hours.slice(-24);
+  const max=Math.max(1, ...arr.map(h=>(h.input_tokens||0)+(h.output_tokens||0)));
+  return arr.map(h=>{
+    const tot=(h.input_tokens||0)+(h.output_tokens||0);
+    const pct = tot ? Math.max(8, Math.round(tot/max*100)) : 4;
+    return `<span class="spark-bar${tot?'':' z'}" style="height:${pct}%"></span>`;
+  }).join('');
+}
+/* 输入(indigo)/输出(sky) 堆叠柱状图；bar-col 纵向 flex-end：底部 in、上方 out；下方对齐刻度行。
+   Phase 55：每个 bar-col 写 data-tip 富文本，全局 mousemove 事件委托显示 #chart-tip 数值 tooltip。 */
+function barChart(buckets, {labelEvery=4, labelFmt=null, height=110}={}){
+  const arr=buckets||[];
+  if(!arr.length) return '<div class="text-zinc-400 text-xs">暂无数据</div>';
+  const max=Math.max(1, ...arr.map(b=>(b.input_tokens||0)+(b.output_tokens||0)));
+  const bars=arr.map(b=>{
+    const tot=(b.input_tokens||0)+(b.output_tokens||0);
+    const inP = tot ? Math.max(2, Math.round((b.input_tokens||0)/max*height)) : 0;
+    const outP = tot ? Math.max(2, Math.round((b.output_tokens||0)/max*height)) : 0;
+    const tHead = labelFmt ? esc(labelFmt(b.ts)) : '';
+    const tip =
+      (tHead ? `<div class="tip-row"><b>${tHead}</b></div>` : '')+
+      `<div class="tip-row"><span class="tip-dot" style="background:#818cf8"></span>输入 <b>${fmtTokens(b.input_tokens)}</b></div>`+
+      `<div class="tip-row"><span class="tip-dot" style="background:#38bdf8"></span>输出 <b>${fmtTokens(b.output_tokens)}</b></div>`+
+      `<div class="tip-row">请求 <b>${b.requests||0}</b> 次</div>`;
+    // Phase 56：data-tip 是双引号属性，tip 富文本含 "（class=/style=）→ 必须 esc() 转义，
+    // 否则属性在第一个内部引号处截断、其余 HTML 变成柱内文本节点，图表结构整个乱掉。
+    return `<div class="bar-col" data-tip="${esc(tip)}"><div class="bar-in" style="height:${inP}px"></div><div class="bar-out" style="height:${outP}px"></div></div>`;
+  }).join('');
+  const xs=arr.map((b,i)=>`<span>${(labelEvery && i%labelEvery===0 && labelFmt) ? esc(labelFmt(b.ts)) : ' '}</span>`).join('');
+  return `<div class="bar-chart" style="height:${height}px">${bars}</div><div class="bar-x">${xs}</div>`;
+}
+/* Phase 55：柱状图 hover tooltip——事件委托，详情弹窗与大屏共用（都是 .bar-col）；贴边翻转 */
+function chartTipShow(target){
+  const tip=$('chart-tip');
+  const html=target.getAttribute('data-tip');
+  if(!html){ tip.style.display='none'; return; }
+  tip.innerHTML=html;
+  tip.style.display='block';
+  moveChartTip(target.getBoundingClientRect());
+}
+function moveChartTip(rect){
+  const tip=$('chart-tip'); if(tip.style.display==='none') return;
+  tip.style.display='block';
+  const pad=14, h=tip.offsetHeight||0;
+  const x=Math.min(rect.left, window.innerWidth-rect.width-pad);
+  let y=rect.top-h-pad;
+  if(y<4) y=rect.bottom+pad; // 上方放不下 → 翻到柱顶下方
+  tip.style.left=Math.max(4,x)+'px';
+  tip.style.top=Math.max(4,y)+'px';
+}
+function fmtHM(ts){ const d=new Date(ts*1000); return String(d.getHours()).padStart(2,'0')+':00'; }
+function fmtMD(ts){ const d=new Date(ts*1000); return `${d.getMonth()+1}/${d.getDate()}`; }
+
+async function loadUsage(){ // Phase 54：拉 /api/usage（含 time 时间桶）→ 渲染使用情况卡片
+  const r = await api('/api/usage');
+  if (r && Array.isArray(r.usage)) renderUsage(r.usage);
+}
+function renderUsage(usage){
+  const box=$('usage'); box.innerHTML='';
+  const list = Array.isArray(usage) ? usage : [];
+  if(!list.length){ box.innerHTML='<span class="text-zinc-500">暂无模型订阅</span>'; return; }
+  list.forEach(u=>{
+    const row=document.createElement('div');
+    row.className='py-1.5 border-b border-zinc-100 last:border-b-0';
+    const top=document.createElement('div');
+    top.className='flex items-center gap-3 flex-wrap';
+    const id=document.createElement('span');
+    id.className='font-semibold text-xs bg-indigo-50 text-indigo-700 rounded-md px-2.5 py-1 min-w-[64px] text-center shrink-0 whitespace-nowrap';
+    id.textContent=provName(u.provider); // Phase 38：ID 简写 → 服务商名称
+    const stats=document.createElement('span');
+    stats.className='flex-1 min-w-[180px] text-xs text-zinc-600 flex flex-wrap gap-x-4 gap-y-0.5';
+    stats.innerHTML=
+      `<span>请求 <b class="text-zinc-900">${u.requests||0}</b></span>`+
+      `<span>输入 <b class="text-zinc-900">${fmtTokens(u.input_tokens)}</b></span>`+
+      `<span>输出 <b class="text-zinc-900">${fmtTokens(u.output_tokens)}</b></span>`+
+      `<span class="text-zinc-400">tokens</span>`;
+    top.appendChild(id); top.appendChild(stats);
+    row.appendChild(top);
+    const models=(u.models||[]);
+    if(models.length){
+      const ms=document.createElement('div');
+      ms.className='w-full mt-1 pl-2 flex flex-col gap-y-1';
+      models.forEach(m=>{
+        const line=document.createElement('div');
+        line.className='flex items-center gap-2.5 flex-wrap text-xs text-zinc-600 rounded-md px-1 -mx-1 py-0.5 cursor-pointer hover:bg-zinc-50 transition-colors';
+        line.title='点击查看该模型的每小时/每日用量详情';
+        line.addEventListener('click', ()=> openUsageDetail(u.provider, m.model));
+        const chip=document.createElement('span');
+        chip.className='font-semibold text-[11px] bg-green-50 text-green-700 rounded px-2 py-0.5 shrink-0 whitespace-nowrap';
+        chip.textContent=m.model; // 用户文本走 textContent，不注入 innerHTML
+        const t=todayStat(m); // Phase 54：今日桶
+        const info=document.createElement('span');
+        info.className='min-w-0';
+        info.innerHTML=`累计 <b class="text-zinc-800">${m.requests||0}</b> 次 · ${fmtTokens(m.input_tokens)}+${fmtTokens(m.output_tokens)} &nbsp;·&nbsp; 今日 <b class="text-zinc-800">${t.requests}</b> 次 · ${fmtTokens(t.input_tokens)}/${fmtTokens(t.output_tokens)}`;
+        const spark=document.createElement('span');
+        spark.className='spark';
+        spark.innerHTML=sparkBars(hoursSorted(m));
+        const chev=document.createElement('span');
+        chev.className='text-zinc-300 shrink-0 flex items-center';
+        chev.innerHTML=svg('<polyline points="9 18 15 12 9 6"/>');
+        line.appendChild(chip); line.appendChild(info); line.appendChild(spark); line.appendChild(chev);
+        ms.appendChild(line);
+      });
+      row.appendChild(ms);
+    }
+    box.appendChild(row);
+  });
+}
+async function resetUsage(){ // Phase 35：清零用量统计（POST → 立即落盘 → 刷新展示）
+  const r = await api('/api/usage/reset', { method:'POST', headers:{'content-type':'application/json'}, body:'{}' });
+  if(r.ok){
+    toast('用量已清零');
+    loadUsage();
+  } else {
+    toast(r.error || '清零失败', false);
+  }
+}
+async function refreshUsage(){ // Phase 41/54：刷新用量（含每小时/每日明细）
+  await loadUsage();
+}
+/* ---------- Phase 54：模型用量详情弹窗 ---------- */
+async function openUsageDetail(provider, model){
+  const r = await api('/api/usage');
+  if(!r || !Array.isArray(r.usage)) return;
+  const g = r.usage.find(x=>x.provider===provider);
+  const m = g && (g.models||[]).find(x=>x.model===model);
+  if(!m) return;
+  const d = findDetail(m.model) || {}; // model 键即完整别名
+  const hours=hoursSorted(m), days=daysSorted(m);
+  const today=localDayStartTs(Date.now()/1000);
+  const dT=days.find(x=>x.ts===today) || {requests:0,input_tokens:0,output_tokens:0};
+  const dY=days.find(x=>x.ts===today-86400) || {requests:0,input_tokens:0,output_tokens:0};
+  const d7=days.filter(x=>x.ts>=today-6*86400);
+  const sum=(arr,k)=>arr.reduce((s,x)=>s+(x[k]||0),0);
+  const tile=(label,o)=>`<div class="tile"><span>${label}</span><b>${o.requests} 次</b><span>${fmtTokens(o.input_tokens)} 入 · ${fmtTokens(o.output_tokens)} 出</span></div>`;
+  $('ud-title').innerHTML =
+    `<span class="bg-green-50 text-green-700 rounded-md px-2 py-0.5 text-xs font-semibold whitespace-nowrap">${esc(model)}</span>`+
+    (d.real ? `<span class="text-xs text-zinc-500">${esc(d.real)}</span>` : '')+
+    `<span class="text-[11px] font-semibold text-indigo-700 bg-indigo-50 rounded-full px-2 py-0.5">${fmtCtx(d.context || 200000)}</span>`+
+    `<span class="text-xs text-zinc-400 ml-auto">${esc(provName(provider))}</span>`;
+  $('ud-body').innerHTML =
+    `<div class="ud-tiles">`+
+      tile('今日', dT)+tile('昨日', dY)+
+      tile('近 7 日', {requests:sum(d7,'requests'), input_tokens:sum(d7,'input_tokens'), output_tokens:sum(d7,'output_tokens')})+
+      tile('累计', {requests:m.requests||0, input_tokens:m.input_tokens||0, output_tokens:m.output_tokens||0})+
+    `</div>`+
+    `<div class="text-xs font-semibold text-zinc-700 mb-1">近 24 小时（输入 indigo / 输出 sky）</div>`+
+    barChart(hours.slice(-24), {labelEvery:4, labelFmt:fmtHM})+
+    `<div class="text-xs font-semibold text-zinc-700 mt-3 mb-1">每日明细（最近 ${days.length} 天）</div>`+
+    barChart(days, {labelEvery:2, labelFmt:fmtMD})+
+    `<div class="text-xs font-semibold text-zinc-700 mt-3 mb-1">明细</div>`+
+    `<div class="overflow-x-auto"><table class="w-full text-xs text-left"><thead><tr class="text-zinc-400 border-b border-zinc-200"><th class="py-1 pr-3 font-medium">日期</th><th class="py-1 pr-3 font-medium" style="text-align:right">请求</th><th class="py-1 pr-3 font-medium" style="text-align:right">输入</th><th class="py-1 pr-3 font-medium" style="text-align:right">输出</th></tr></thead><tbody>`+
+    days.slice().reverse().map(db=>`<tr class="border-b border-zinc-100"><td class="py-1 pr-3">${fmtMD(db.ts)}</td><td class="py-1 pr-3 text-zinc-900" style="text-align:right">${db.requests||0}</td><td class="py-1 pr-3 text-zinc-900" style="text-align:right">${fmtTokens(db.input_tokens)}</td><td class="py-1 pr-3 text-zinc-900" style="text-align:right">${fmtTokens(db.output_tokens)}</td></tr>`).join('')+
+    `</tbody></table></div>`;
+  $('usage-detail-overlay').hidden=false;
+}
+function closeUsageDetail(){ $('usage-detail-overlay').hidden=true; }
+/* ---------- Phase 54：全屏用量大屏（深色仪表盘） ---------- */
+let dashTimer = null;
+async function loadUsageDash(){ // 静默刷新：失败保留旧内容、不弹 toast（30s 轮询避免打扰）
+  try{
+    const r = await fetch('/api/usage');
+    const j = await r.json();
+    if(j && Array.isArray(j.usage)) renderDash(j.usage);
+    $('dash-updated').textContent = '上次刷新 ' + new Date().toTimeString().slice(0,8);
+  }catch(e){}
+}
+function renderDash(list){
+  const box=$('dash-body'); box.innerHTML='';
+  if(!list.length){ box.innerHTML='<div class="dash-mut">暂无模型订阅</div>'; return; }
+  const today=localDayStartTs(Date.now()/1000);
+  list.forEach(u=>{
+    const card=document.createElement('div');
+    card.className='dash-card';
+    const h=document.createElement('h4');
+    const pid=document.createElement('span');
+    pid.className='dash-alias'; pid.textContent=provName(u.provider); // 用户文本走 textContent
+    const tot=document.createElement('span');
+    tot.className='dash-mut'; tot.textContent=`请求 ${u.requests||0} · ${fmtTokens(u.input_tokens)} 入 · ${fmtTokens(u.output_tokens)} 出`;
+    h.appendChild(pid); h.appendChild(tot);
+    card.appendChild(h);
+    const nums=document.createElement('div');
+    nums.className='dash-nums';
+    let req=0, inn=0, out=0;
+    (u.models||[]).forEach(m=>{
+      const t=todayStat(m);
+      req+=t.requests||0; inn+=t.input_tokens||0; out+=t.output_tokens||0;
+    });
+    nums.innerHTML=
+      `<div><span>今日请求</span><b>${req}</b></div>`+
+      `<div><span>今日输入</span><b>${fmtTokens(inn)}</b></div>`+
+      `<div><span>今日输出</span><b>${fmtTokens(out)}</b></div>`;
+    card.appendChild(nums);
+    (u.models||[]).forEach(m=>{
+      const row=document.createElement('div');
+      row.className='dash-model-row mt-2';
+      const lbl=document.createElement('div');
+      lbl.className='flex items-center gap-2 mb-1';
+      const chip=document.createElement('span');
+      chip.className='dash-alias'; chip.textContent=m.model;
+      const t=todayStat(m);
+      const info=document.createElement('span');
+      info.className='dash-mut'; info.textContent=`今日 ${t.requests||0} 次 · ${fmtTokens(t.input_tokens)}/${fmtTokens(t.output_tokens)} · 累计 ${m.requests||0} 次`;
+      lbl.appendChild(chip); lbl.appendChild(info);
+      row.appendChild(lbl);
+      row.insertAdjacentHTML('beforeend', barChart(hoursSorted(m).slice(-24), {labelEvery:4, labelFmt:fmtHM, height:80}));
+      card.appendChild(row);
+    });
+    box.appendChild(card);
+  });
+}
+function openDashboard(){
+  $('dashboard-overlay').hidden=false;
+  loadUsageDash();
+  if(dashTimer) clearInterval(dashTimer);
+  dashTimer=setInterval(loadUsageDash, 30000); // Phase 54：30s 自动刷新
+}
+function closeDashboard(){
+  $('dashboard-overlay').hidden=true;
+  if(dashTimer){ clearInterval(dashTimer); dashTimer=null; }
+}
+/* Phase 52：余额情况——Coding Plan 用量 + 余额独立板块；两者都无数据时显示占位符，任一有内容则隐藏 */
+function syncBalancePlaceholder(){
+  const ph=$('balance-placeholder');
+  if(ph) ph.hidden = !($('balances').hidden && $('coding').hidden);
+}
+async function loadBalance(){
+  const box=$('balances');
+  const hasContent = box.childNodes.length > 0; // 已有余额 → 刷新不清空、不闪「加载中」，静默更新
+  box.hidden=false;
+  if(!hasContent) box.innerHTML='<span class="text-zinc-400">余额加载中…</span>';
+  const r = await api('/api/balance');
+  if(!Array.isArray(r.balances)){ box.innerHTML='<span class="text-red-600">余额查询失败</span>'; syncBalancePlaceholder(); return; }
+  const list = r.balances;
+  // Phase 29：无接口的服务商不再列出「无简单余额接口」——列表空则整块隐藏（等有 API 支持再出现）
+  if(!list.length){ box.hidden=true; box.innerHTML=''; syncBalancePlaceholder(); return; }
+  box.innerHTML='';
+  list.forEach(b=>{
+    const row=document.createElement('div');
+    row.className='flex items-center gap-3 py-1 border-b border-zinc-100 last:border-b-0';
+    const id=document.createElement('span');
+    id.className='font-semibold text-xs bg-indigo-50 text-indigo-700 rounded-md px-2.5 py-1 min-w-[64px] text-center shrink-0 whitespace-nowrap';
+    id.textContent=provName(b.provider); // Phase 38：ID 简写 → 服务商名称
+    row.appendChild(id);
+    const info=document.createElement('span');
+    info.className='text-xs text-zinc-600';
+    if(b.error){
+      info.textContent=b.error;
+      info.className='text-xs text-zinc-400';
+    } else if(Array.isArray(b.balance_infos) && b.balance_infos.length){
+      const parts=(b.balance_infos||[]).map(x=>
+        `${x.currency||''} 余额 ${x.total_balance||'0'}`+
+        (x.granted_balance && Number(x.granted_balance)>0 ? `（赠送 ${x.granted_balance}）` : '')
+      );
+      info.textContent=parts.join('；')+(b.available===false?'（账户不可用）':'');
+    } else {
+      info.textContent='暂无余额信息';
+    }
+    row.appendChild(info);
+    box.appendChild(row);
+  });
+  syncBalancePlaceholder();
+}
+/* Phase 28/30/31/32：Coding Plan 用量（火山方舟 5小时/一周/一月；讯飞星辰按 apiKey 匹配套餐）+ 从浏览器导入 Cookie */
+/* 讯飞字段语义（次数）：packageLimit/Usage/Left=一个月总/已用/剩余；rpwLimit/Usage=一周总/已用；rp5hLimit/Usage=5小时总/已用 */
+function fmtC(n){
+  // 次数精确显示（不做 K/M 缩写）：4653.4 → "4653.4"，18000 → "18000"
+  if(n==null) return '0';
+  return String(Math.round(n*10)/10);
+}
+function xfPill(label, used, limit, cls){
+  // 讯飞单档配额 pill：`22/1200次（5小时）`；接近用满（≥90%）转红底警示
+  const ratio=limit>0 ? used/limit : 0;
+  const pillCls = ratio>=0.9 ? 'bg-red-50 text-red-600' : cls;
+  return `<span class="text-xs leading-none rounded-md px-1.5 py-1 whitespace-nowrap ${pillCls}"><b>${fmtC(used)}</b>/${fmtC(limit)}次（${label}）</span>`;
+}
+function fmtXfPlans(plans){
+  // Phase 32/33：讯飞星辰——单行 pill 组（5小时/1周/月 + 到期），与火山方舟同排展示；Phase 33 去掉套餐名
+  return (plans||[]).map(p=>{
+    const segs=[];
+    if(p.rp5h_limit>0)    segs.push(xfPill('5小时', p.rp5h_usage, p.rp5h_limit, 'bg-amber-50 text-amber-700'));
+    if(p.rpw_limit>0)     segs.push(xfPill('1周', p.rpw_usage, p.rpw_limit, 'bg-emerald-50 text-emerald-700'));
+    if(p.package_limit>0) segs.push(xfPill('月', p.package_usage, p.package_limit, 'bg-sky-50 text-sky-700'));
+    let line=segs.join('<span class="mx-0.5 text-zinc-300">|</span>');
+    if(p.expires_at) line+=`<span class="mx-0.5 text-zinc-300">|</span><span class="text-xs leading-none text-zinc-400 whitespace-nowrap">${esc(p.expires_at.slice(0,10))}（到期）</span>`;
+    return `<div class="leading-relaxed flex items-center gap-y-1 flex-wrap">${line}</div>`;
+  }).join('');
+}
+function fmtTs(ts){
+  if(!ts) return '';
+  const d=new Date(ts*1000), p=n=>String(n).padStart(2,'0');
+  return `${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function fmtTsDM(ts){
+  // Phase 48：OpenCode 一周/一月重置时间用 dd-MM hh:mm
+  if(!ts) return '';
+  const d=new Date(ts*1000), p=n=>String(n).padStart(2,'0');
+  return `${p(d.getDate())}-${p(d.getMonth()+1)} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function resetSuffix(l, oc){
+  // Phase 50：用量为 0 且上游无重置时间（reset_ts 缺失/0）→ 显示「还未使用」，不再渲染空的「重置 …」
+  if(!l.reset_ts) return ' · 还未使用';
+  const t = oc ? (l.label==='5小时' ? fmtTs(l.reset_ts) : fmtTsDM(l.reset_ts)) : fmtTs(l.reset_ts);
+  return ' · 重置 ' + t;
+}
+async function loadCodingPlan(){
+  const box=$('coding');
+  const r = await api('/api/coding-plan');
+  if(!Array.isArray(r.coding_plans) || !r.coding_plans.length){ box.hidden=true; box.innerHTML=''; syncBalancePlaceholder(); return; }
+  box.hidden=false; box.innerHTML='';
+  const head=document.createElement('div');
+  head.className='text-xs leading-loose-inline text-zinc-400 mb-1';
+  head.textContent='Coding Plan 用量（火山方舟 / 讯飞星辰 / OpenCode）';
+  box.appendChild(head);
+  r.coding_plans.forEach(c=>{
+    // Phase 53b：续期诊断打印到浏览器控制台（F12），方便调试 Cookie 是否被上游回填续期
+    if(c.renewal) console.log('[coding-plan]', provName(c.provider), c.renewal);
+    const row=document.createElement('div');
+    row.className='flex items-center gap-3 py-1 border-b border-zinc-100 last:border-b-0';
+    const id=document.createElement('span');
+    id.className='font-semibold text-xs bg-amber-50 text-amber-700 rounded-md px-2.5 py-1 min-w-[64px] text-center shrink-0 whitespace-nowrap';
+    id.textContent=provName(c.provider); // Phase 38：ID 简写 → 服务商名称
+    row.appendChild(id);
+    const info=document.createElement('span');
+    info.className='flex-1 min-w-[180px] text-xs text-zinc-600';
+    if(c.ok){
+      if(c.kind==='xf'){
+        // Phase 30：讯飞星辰——每套餐一行（包量%/剩余、5小时/一周 请求配额、到期）
+        info.innerHTML=fmtXfPlans(c.plans||[])+
+          (c.cookie_source==='browser' ? '<div class="text-zinc-400 text-xs">（浏览器 Cookie）</div>' : '');
+      } else {
+        // Phase 48：OpenCode 重置时间按等级分派（5小时→MM-dd hh:mm；一周/一月→dd-MM hh:mm），
+        // 火山方舟沿用统一 MM-dd hh:mm；Phase 50：用量为 0 无重置时间 → 显示「还未使用」
+        info.innerHTML=(c.levels||[]).map(l=>
+          `<b>${l.label}</b> ${Number(l.percent).toFixed(2)}%<span class="text-zinc-400">${resetSuffix(l, c.kind==='oc')}</span>`
+        ).join('<span class="mx-1.5 text-zinc-300">|</span>') +
+        (c.cookie_source==='browser' ? ' <span class="text-zinc-400 text-xs">（浏览器 Cookie）</span>' : '');
+      }
+    } else {
+      info.textContent = c.error || '查询失败';
+      info.className='flex-1 min-w-[180px] text-xs text-zinc-400';
+    }
+    row.appendChild(info);
+    const imp=document.createElement('button'); imp.type='button';
+    imp.className='btn btn-sm btn-ghost shrink-0'; imp.innerHTML=svg(S.download)+'导入';
+    imp.title='从 Chrome/Edge 自动读取 Cookie（浏览器运行中可能锁库失败）';
+    imp.addEventListener('click', ()=>importCookie(c.provider));
+    row.appendChild(imp);
+    const paste=document.createElement('button'); paste.type='button';
+    paste.className='btn btn-sm btn-ghost shrink-0'; paste.innerHTML='粘贴';
+    paste.title='手动粘贴 Cookie（浏览器运行中锁库时用这个）';
+    paste.addEventListener('click', ()=>pasteCookie(c.provider));
+    row.appendChild(paste);
+    box.appendChild(row);
+  });
+  syncBalancePlaceholder();
+}
+async function importCookie(provider){
+  const r = await api('/api/import-cookie', {
+    method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({provider})
+  });
+  if(r.ok){
+    toast(`已导入 Cookie 到 ${provider}（${r.cookie}）`);
+    loadCodingPlan();
+  } else {
+    // 失败（通常是浏览器运行中锁库）→ 直接打开模型订阅编辑弹窗、聚焦 Cookie 输入框、弹窗内红字报错——
+    // 用户立刻看到「粘贴的地方」，不用自己找
+    const idx = providers.findIndex(p=>p.id===provider);
+    if(idx>=0){
+      openModal(idx);
+      setTimeout(()=>{
+        const c=$('m-cookie');
+        if(c){ c.focus(); c.scrollIntoView({block:'center'}); }
+        modalError((r.error||'导入失败')+'。请在下方「控制台 Cookie」直接粘贴：浏览器打开 console.volcengine.com（火山方舟）或 maas.xfyun.cn（讯飞星辰）或 opencode.ai（OpenCode）→ F12 → Network 任选一个请求 → 复制请求头的 Cookie 值');
+      }, 80);
+    } else {
+      toast(r.error || '导入失败', false);
+    }
+  }
+}
+function pasteCookie(provider){
+  const idx = providers.findIndex(p=>p.id===provider);
+  if(idx<0){ toast('模型订阅不存在', false); return; }
+  openModal(idx);
+  setTimeout(()=>{
+    const c=$('m-cookie');
+    if(c){ c.focus(); c.scrollIntoView({block:'center'}); }
+  }, 80);
+}
+
+/* ---------- 默认模型可搜索下拉 ---------- */
+function dmItem(d){
+  const row=document.createElement('button'); row.type='button';
+  row.className='w-full flex items-center gap-2 px-3 py-2 text-left text-sm hover:bg-zinc-50 cursor-pointer '+(d.full===defaultModel?'bg-green-50':'');
+  const badge=document.createElement('span');
+  badge.className='px-2 py-0.5 rounded text-[11px] font-semibold bg-zinc-200 text-zinc-700 shrink-0 whitespace-nowrap'; badge.textContent=provName(d.provider);
+  const main=document.createElement('span'); main.className='flex-1 min-w-0';
+  const alias=document.createElement('span'); alias.className='font-medium block truncate'; alias.textContent=d.full;
+  const real=document.createElement('span'); real.className='text-xs text-zinc-400 block truncate'; real.textContent=d.real;
+  main.appendChild(alias); main.appendChild(real);
+  const ctx=document.createElement('span');
+  ctx.className='px-2 py-0.5 rounded text-[11px] font-semibold text-indigo-700 bg-indigo-50 shrink-0'; ctx.textContent=fmtCtx(d.context);
+  row.appendChild(badge); row.appendChild(main); row.appendChild(ctx);
+  row.addEventListener('click', ()=> selectDefault(d));
+  return row;
+}
+function renderDmList(){
+  const list=$('dm-list'); list.innerHTML='';
+  const none=document.createElement('button'); none.type='button';
+  none.className='w-full flex items-center px-3 py-2 text-left text-sm text-zinc-500 hover:bg-zinc-50 cursor-pointer '+(defaultModel===''?'bg-green-50':'');
+  none.textContent='（未设置 — 用第一个模型订阅的第一个模型）';
+  none.addEventListener('click', ()=> selectDefault(null));
+  list.appendChild(none);
+  modelDetails.forEach(d=> list.appendChild(dmItem(d)));
+}
+async function selectDefault(d){
+  const next = d ? d.full : '';
+  defaultModel = next;
+  updateDmDisplay();
+  closeDm();
+  // 立即持久化 + 热重载（Phase 22 用户需求：页面上改「当前使用模型」即时生效，claude 运行中也可切换）。
+  // 不再需要额外点「保存配置」——选中即 PUT /api/config。
+  const r = await api('/api/config', {
+    method:'PUT', headers:{'content-type':'application/json'}, body: JSON.stringify(collect())
+  });
+  if(!r.ok){
+    toast('保存当前使用模型失败：' + (r.error || '未知错误'), false);
+    load(); // 回滚到后端实际值
+    return;
+  }
+  toast(`当前使用模型已切换为 ${next || '（回退第一个模型订阅的第一个模型）'}，热重载即时生效`);
+  load();
+}
+function updateDmDisplay(){
+  const disp=$('dm-display');
+  disp.className='flex-1 min-w-0 flex items-center gap-2';
+  const d=modelDetails.find(x=> x.full===defaultModel);
+  if(d){
+    disp.innerHTML=`<span class="font-medium text-zinc-900 truncate">${esc(d.full)}</span>`+
+      `<span class="text-xs text-zinc-400 truncate">· ${esc(d.real)}</span>`+
+      `<span class="ml-auto shrink-0 text-[11px] font-semibold text-indigo-700 bg-indigo-50 rounded px-2 py-0.5">${fmtCtx(d.context)}</span>`;
+  } else {
+    disp.textContent='（未设置 — 用第一个模型订阅的第一个模型）';
+    disp.className='flex-1 min-w-0 flex items-center gap-2 text-zinc-500';
+  }
+}
+/* Phase 51：header 内联「当前使用模型」下拉——紧跟标题，无 label；选中即保存热重载（与 dm 弹层同逻辑） */
+function renderDmSelect(){
+  const s=$('dm-select'); s.innerHTML='';
+  if(!modelDetails.length){
+    const o=document.createElement('option'); o.value=''; o.textContent='（未配置模型）';
+    s.appendChild(o); s.value=''; return;
+  }
+  modelDetails.forEach(d=>{
+    const o=document.createElement('option');
+    o.value=d.full; o.textContent=provName(d.provider)+' · '+d.full;
+    s.appendChild(o);
+  });
+  if(defaultModel){
+    s.value=defaultModel;
+    if(s.value!==defaultModel){ // 默认模型不在列表（被删）→ 补一项
+      const o=document.createElement('option'); o.value=defaultModel; o.textContent=defaultModel;
+      s.prepend(o); s.value=defaultModel;
+    }
+  } else {
+    const o=document.createElement('option'); o.value=''; o.textContent='（未设置 — 第一个模型订阅的第一个模型）';
+    s.prepend(o); s.value='';
+  }
+}
+function openDm(){
+  renderDmList();
+  $('dm-drop').hidden=false; dmOpen=true;
+}
+function closeDm(){
+  $('dm-drop').hidden=true; dmOpen=false;
+}
+
+/* ---------- 通用确认弹窗 ---------- */
+let confirmCb = null;
+function confirmAction({title, msg, ok, color, cb}){
+  const c = color || 'blue';
+  $('confirm-title').textContent = title || '确认操作';
+  $('confirm-msg').textContent = msg || '';
+  const ic=$('confirm-icon');
+  ic.className = 'ic ic-' + c;
+  ic.innerHTML = svg(S[(c==='red'||c==='orange') ? 'warn' : (c==='green' ? 'check' : 'info')]);
+  const yes = $('confirm-yes');
+  yes.textContent = ok || '确认';
+  yes.className = 'btn btn-solid ' + ({green:'btn-green', orange:'btn-orange', blue:'btn-blue', indigo:'btn-indigo', red:'btn-red'}[c] || 'btn-blue');
+  confirmCb = cb;
+  $('confirm-overlay').hidden = false;
+  setTimeout(()=> yes.focus(), 0);
+}
+function closeConfirm(){ $('confirm-overlay').hidden = true; confirmCb = null; }
+
+/* ---------- 事件绑定 ---------- */
+$('add-provider').addEventListener('click', ()=>openModal(null));
+$('m-preset').addEventListener('change', ()=>{ // Phase 38：选服务商 → 自动填 ID 简写/名称/Base URL/认证（ID 可改）；自定义保留手填
+  const v = $('m-preset').value;
+  const pr = PRESETS.find(x=>x.id===v);
+  if(pr){
+    $('m-id').value = pr.id;
+    $('m-name').value = pr.name;
+    $('m-base').value = pr.base;
+    $('m-auth').value = pr.auth;
+    $('m-protocol').value = pr.protocol || 'anthropic'; // Phase 56：Gemini 预设自带 gemini 协议，其余预设都是 Anthropic 协议服务商
+    ['m-id','m-name','m-base','m-preset'].forEach(i=> $(i).style.borderColor=''); // 清掉校验高亮
+  }
+  toggleCookieField(); // 控制台 Cookie 仅服务商为讯飞/火山时显示
+});
+$('m-ok').addEventListener('click', modalSave);
+$('m-cancel').addEventListener('click', closeModal);
+$('modal-close').addEventListener('click', closeModal);
+$('overlay').addEventListener('click', e=>{ if(e.target===$('overlay')) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('overlay').hidden) closeModal(); });
+$('save').addEventListener('click', save);
+$('save-restart').addEventListener('click', saveRestart);
+$('update-settings').addEventListener('click', ()=> updateSettings('claude'));
+$('update-env').addEventListener('click', ()=> updateSettings('env'));
+$('copy-env').addEventListener('click', copyEnv);
+$('refresh-balance').addEventListener('click', ()=>{ loadBalance(); loadCodingPlan(); refreshUsage(); });
+$('reset-usage').addEventListener('click', ()=> confirmAction({
+  title:'清零用量',
+  msg:'将清空所有模型订阅的调用量/用量统计（请求数 / 输入 / 输出 tokens），且立即落盘生效，不可恢复。确定清零？',
+  ok:'清零', color:'red', cb: resetUsage }));
+$('confirm-yes').addEventListener('click', ()=>{ const cb=confirmCb; closeConfirm(); if(cb) cb(); });
+$('confirm-cancel').addEventListener('click', closeConfirm);
+$('confirm-close').addEventListener('click', closeConfirm);
+$('confirm-overlay').addEventListener('click', e=>{ if(e.target===$('confirm-overlay')) closeConfirm(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('confirm-overlay').hidden) closeConfirm(); });
+$('dm-btn').addEventListener('click', ()=>{ if(dmOpen) closeDm(); else openDm(); });
+/* Phase 51：header 内联下拉选中即切换当前使用模型（复用 selectDefault 保存+热重载） */
+$('dm-select').addEventListener('change', ()=>{
+  const full=$('dm-select').value;
+  const d=modelDetails.find(x=>x.full===full) || null;
+  selectDefault(d);
+});
+document.addEventListener('click', e=>{ if(dmOpen && !e.target.closest('#dm')) closeDm(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && dmOpen) closeDm(); });
+$('m-add-model').addEventListener('click', ()=> $('m-model-rows').appendChild(modelRow('', '', 200000, '')));
+/* Phase 54：用量大屏 + 模型详情弹窗绑定 */
+$('dash-open').addEventListener('click', openDashboard);
+$('dash-close').addEventListener('click', closeDashboard);
+$('dash-refresh').addEventListener('click', loadUsageDash);
+$('ud-close').addEventListener('click', closeUsageDetail);
+$('usage-detail-overlay').addEventListener('click', e=>{ if(e.target===$('usage-detail-overlay')) closeUsageDetail(); });
+/* Phase 55：柱状图 hover tooltip——事件委托（详情弹窗 + 大屏的 .bar-col 都命中） */
+document.addEventListener('mousemove', e=>{
+  const t = e.target && e.target.closest ? e.target.closest('.bar-col') : null;
+  if(t){ chartTipShow(t); }
+  else { const tip=$('chart-tip'); if(tip && tip.style.display!=='none') tip.style.display='none'; }
+});
+/* 关闭弹窗/大屏时隐藏残留 tooltip */
+const chartTipHideOnOverlayClose = ()=>{ const tip=$('chart-tip'); if(tip) tip.style.display='none'; };
+$('ud-close').addEventListener('click', chartTipHideOnOverlayClose);
+$('dash-close').addEventListener('click', chartTipHideOnOverlayClose);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('dashboard-overlay').hidden) closeDashboard(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('usage-detail-overlay').hidden) closeUsageDetail(); });
+load();
+</script>
+</body>
+</html>
