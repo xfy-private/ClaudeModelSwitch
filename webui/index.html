@@ -222,7 +222,7 @@ body{letter-spacing:.012em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoo
       <label class="flex flex-row items-center gap-2 text-[13px] text-zinc-900 mt-2 sm:col-span-2"><input id="m-show-usage" type="checkbox" checked class="accent-green-600"> 显示余额/用量（使用情况卡片、余额、Coding Plan、用量大屏与桌面卡片；关闭后统计照常记录）</label>
       <!-- Phase 28/30/48：Coding Plan 用量查询配置（可选）——火山方舟 / 讯飞星辰 / OpenCode -->
       <label id="m-cookie-wrap" class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2" hidden>控制台 Cookie（可选，查 Coding Plan 用量；掩码保存，留空则查询时自动读浏览器；仅服务商选讯飞/火山/OpenCode 时显示）<textarea id="m-cookie" rows="2" placeholder="火山方舟：浏览器打开 console.volcengine.com → F12 → Network 任选请求 → 复制 Cookie 请求头；讯飞星辰：打开 maas.xfyun.cn；OpenCode：打开 opencode.ai 同样操作（如 sessionid=...; __Secure-...）" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></textarea></label>
-      <label class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2">用量查询 URL（可选，默认按服务商推导；OpenCode 必填 /go 页地址）<input id="m-usage-url" placeholder="留空默认 火山方舟 https://console.volcengine.com/api/top/ark/cn-beijing/2024-01-01/GetCodingPlanUsage / 讯飞 https://maas.xfyun.cn/api/v1/gpt-finetune/coding-plan/list?page=1&amp;size=6 / OpenCode https://opencode.ai/workspace/{工作区ID}/go" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
+      <label class="flex flex-col text-xs text-zinc-500 gap-1 sm:col-span-2">用量查询 URL（可选，默认按服务商推导；OpenCode 必填 /go 页地址）<input id="m-usage-url" placeholder="留空默认 火山方舟 https://console.volcengine.com/api/top/ark/cn-beijing/2024-01-01/GetCodingPlanUsage / 讯飞 https://maas.xfyun.cn/api/v1/gpt-finetune/coding-plan/list?page=1&amp;size=6 / OpenCode https://opencode.ai/console/{工作区ID}/go" class="text-sm px-2.5 py-2 border border-zinc-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></label>
       <div class="sm:col-span-2">
         <div class="text-xs text-zinc-500 mb-1">模型列表 — CC 里用「{id}-别名」调用（如 ds-flash）；只填一行则别名同真实名；「上游协议」可按模型覆盖上面选的服务商级协议（跟随=用服务商级）</div>
         <div class="border border-zinc-300 rounded-md overflow-hidden bg-white">
@@ -1110,7 +1110,7 @@ async function loadCodingPlan(){
         // Phase 48：OpenCode 重置时间按等级分派（5小时→MM-dd hh:mm；一周/一月→dd-MM hh:mm），
         // 火山方舟沿用统一 MM-dd hh:mm；Phase 50：用量为 0 无重置时间 → 显示「还未使用」
         info.innerHTML=(c.levels||[]).map(l=>
-          `<b>${l.label}</b> ${l.percent}%<span class="text-zinc-400">${resetSuffix(l, c.kind==='oc')}</span>`
+          `<b>${l.label}</b> ${Number(l.percent).toFixed(2)}%<span class="text-zinc-400">${resetSuffix(l, c.kind==='oc')}</span>`
         ).join('<span class="mx-1.5 text-zinc-300">|</span>') +
         (c.cookie_source==='browser' ? ' <span class="text-zinc-400 text-xs">（浏览器 Cookie）</span>' : '');
       }

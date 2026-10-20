@@ -254,7 +254,7 @@ pub fn openai_message_to_anthropic(v: &Value, alias: &str) -> Value {
     // 让 CC 存进上下文、下一轮回传，上游才不报「reasoning_content must be passed back」。
     if let Some(r) = msg.get("reasoning_content").and_then(|x| x.as_str()) {
         if !r.is_empty() {
-            blocks.push(json!({ "type": "thinking", "thinking": r }));
+            blocks.push(json!({ "type": "thinking", "thinking": r, "signature": "" }));
         }
     }
     if let Some(s) = msg.get("content").and_then(|c| c.as_str()) {
@@ -453,7 +453,7 @@ impl OpenAiStreamTranslator {
                         json!({
                             "type": "content_block_start",
                             "index": idx,
-                            "content_block": { "type": "thinking", "thinking": "" },
+                            "content_block": { "type": "thinking", "thinking": "", "signature": "" },
                         }),
                     );
                 }
@@ -470,24 +470,27 @@ impl OpenAiStreamTranslator {
                 );
             }
         }
-        // 文本增量
-        if let Some(content) = delta.get("content").and_then(|c| c.as_str()) {
+        // 文本增量；空占位分片不能关闭仍在接收参数的工具块。
+        if let Some(content) = delta
+            .get("content")
+            .and_then(|c| c.as_str())
+            .filter(|s| !s.is_empty())
+        {
             if self.text_index.is_none() {
                 self.open_text(out);
             }
-            if !content.is_empty() {
-                self.out_chars += content.chars().count() as u64;
-                emit(
-                    out,
-                    "content_block_delta",
-                    json!({
-                        "type": "content_block_delta",
-                        "index": self.text_index.unwrap_or(0),
-                        "delta": { "type": "text_delta", "text": content },
-                    }),
-                );
-            }
+            self.out_chars += content.chars().count() as u64;
+            emit(
+                out,
+                "content_block_delta",
+                json!({
+                    "type": "content_block_delta",
+                    "index": self.text_index.unwrap_or(0),
+                    "delta": { "type": "text_delta", "text": content },
+                }),
+            );
         }
+
         // 工具调用增量（按 OpenAI tool index 缓冲，arguments 分片发 input_json_delta）
         if let Some(tcs) = delta.get("tool_calls").and_then(|t| t.as_array()) {
             for tc in tcs {
@@ -712,6 +715,63 @@ mod tests {
             input_fallback: 0,
         };
         (s, usage)
+    }
+
+    #[test]
+    fn stream_empty_content_does_not_close_tool_arguments() {
+        let (sink, _) = sink();
+        let mut tr = OpenAiStreamTranslator::new("test-model".into(), sink);
+        let mut out = Vec::new();
+        for delta in [
+            json!({"tool_calls":[{"index":0,"id":"call_1","function":{"name":"Read","arguments":"{\"file_path\":"}}]}),
+            json!({"content":"","tool_calls":[{"index":0,"function":{"arguments":"\"README.md\"}"}}]}),
+            json!({"content":""}),
+        ] {
+            let line = format!("data: {}\n\n", json!({"choices":[{"delta":delta}]}));
+            tr.push(line.as_bytes(), &mut out);
+        }
+        tr.finish(&mut out);
+        let mut open = std::collections::HashSet::new();
+        let mut arguments = String::new();
+        for line in std::str::from_utf8(&out).unwrap().lines() {
+            let Some(payload) = line.strip_prefix("data: ") else { continue };
+            let event: Value = serde_json::from_str(payload).unwrap();
+            let index = event["index"].as_u64().unwrap_or(0);
+            match event["type"].as_str().unwrap() {
+                "content_block_start" => {
+                    assert_eq!(event["content_block"]["type"], "tool_use");
+                    assert!(open.insert(index));
+                }
+                "content_block_delta" => {
+                    assert!(open.contains(&index), "delta for closed block: {event}");
+                    arguments.push_str(event["delta"]["partial_json"].as_str().unwrap());
+                }
+                "content_block_stop" => { assert!(open.remove(&index)); }
+                _ => {}
+            }
+        }
+        assert!(open.is_empty());
+        assert_eq!(serde_json::from_str::<Value>(&arguments).unwrap(), json!({"file_path":"README.md"}));
+    }
+
+    #[test]
+    fn thinking_blocks_include_signature_in_stream_and_message() {
+        let (sink, _) = sink();
+        let mut tr = OpenAiStreamTranslator::new("test-model".into(), sink);
+        let mut out = Vec::new();
+        tr.push(b"data: {\"choices\":[{\"delta\":{\"role\":\"assistant\",\"content\":\"\"}}]}\n\n", &mut out);
+        tr.push(b"data: {\"choices\":[{\"delta\":{\"reasoning_content\":\"test\"}}]}\n\n", &mut out);
+        tr.finish(&mut out);
+        let events: Vec<Value> = std::str::from_utf8(&out).unwrap().lines()
+            .filter_map(|line| line.strip_prefix("data: "))
+            .map(|payload| serde_json::from_str(payload).unwrap()).collect();
+        assert_eq!(events[1]["content_block"]["type"], "thinking");
+        let thinking = events.iter().find(|event| event["content_block"]["type"] == "thinking").unwrap();
+        assert_eq!(thinking["content_block"]["signature"].as_str(), Some(""));
+        let message = openai_message_to_anthropic(&json!({
+            "choices":[{"message":{"reasoning_content":"test","content":"done"},"finish_reason":"stop"}]
+        }), "test-model");
+        assert_eq!(message["content"][0]["signature"].as_str(), Some(""));
     }
 
     #[test]

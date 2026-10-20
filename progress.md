@@ -398,3 +398,17 @@
   - `main.rs`：`mod commands;` + main() 在 `--print-default-model` 分支后、validate 前调用（双击/autostart/restart 都会确保；print 保持纯查询）。
 - 验收：cargo test **56 全绿**（+1 `ensure_models_command_creates_and_preserves`）/ e2e 58 ✓ / **自动安装真机验证**（临时 CLAUDE_CONFIG_DIR 跑 debug → `commands/models.md` 创建且内容=内嵌命令）✓ / release **3.29MB**（3,458,048B）/ 部署 8787（PID 14696，healthz ok、providers 3、本机已存在命令未被覆盖）✓。
 - **Phase 45 ✅。**
+
+## 2026-10-20 误删恢复验证
+- 从本仓库 d8a54c6 完整快照恢复当前 main 缺失的项目源码、构建文件、测试与开发文档；敏感配置保持原样。
+- 本会话最终修改已重做：OpenAI 空文本分片不关闭工具块、thinking.signature；OpenCode 新控制台 JSON 接口/工作区头/续期；API/页面/卡片百分比两位小数；5 项回归和脱敏探测脚本。
+- 完整 113 单元测试通过；UI 已重建，JavaScript 与诊断脚本语法通过。源码恢复到工作区，未提交。
+
+## 按本会话修复代码再次恢复
+- 用户要求不依赖 Git 提交。已按对话中之前写出的实现重新写入流式处理、新控制台 URL/请求头/JSON 用量解析/UTC 重置时间，并重新写入 5 项回归测试。
+- 页面、卡片、API 百分比两位小数已核验；UI 重建与 JS/诊断脚本语法通过。当前恢复依据为对话中的代码，后续另存独立源码备份。
+- 本轮验证完成：113 项单元测试、110 项端到端检查全部通过；GNU 发布版生成。将当前源码另存项目外 ZIP 以便不依赖 Git 恢复。
+
+## 一键打包脚本
+- 新增根目录 build.bat：依赖检查、GNU target、Tailwind 构建、旧 GCC/LLD 兼容、release 输出 dist/claude-relay.exe 与 6 MiB 检查。支持 --offline、--mirror、--no-pause；正在以离线镜像模式实际验证。
+- 实测 build.bat --offline --mirror --no-pause 成功，输出 dist/claude-relay.exe（3.45 MiB）。

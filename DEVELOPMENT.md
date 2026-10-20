@@ -1,5 +1,10 @@
 # ClaudeRelay 二次开发文档
 
+Windows 一键打包：双击项目根 `build.bat`，完成后产物为 `dist/claude-relay.exe`。
+脚本会检查依赖、构建内嵌页面、准备 GNU 链接兼容配置并生成 release exe。
+`build.bat --mirror` 使用 rsproxy Cargo 镜像；依赖已缓存时可用
+`build.bat --offline --mirror --no-pause` 离线构建并直接退出。
+
 > 面向要在本项目上做二次开发的开发者。读完本文 + `CLAUDE.md`（项目主说明）+ `findings.md`（踩坑记录），可以较完整地理解这个项目的设计、代码结构、扩展方式与坑。
 
 ---
@@ -455,3 +460,11 @@ build_ui.py 幂等可重复。**改过 UI 不重跑 = exe 内嵌的是旧页面*
 3. **测试先跑一遍**：`cargo test` + `python test/e2e.py` 建立基线，改完再跑
 4. **改 UI 记得跑 build_ui.py**：不然部署后页面是旧的
 5. **config.json / claude-settings.json 含真实 Key**：改代码、写文档、跑测试都不要把它们提交进 git
+
+## OpenCode Go 新控制台用量与显示（2026-10-20）
+- console_usage_url 填 https://opencode.ai/console/{工作区ID}/go，配置中保留页面地址。新版页面为 SPA，后端请求同域 /console/api/go/status，附 x-org-id、页面 Referer 和存档 Cookie；查询与 Cookie 续期共用请求头逻辑。
+- access.meters.fiveHour/week/month 中 usedMicroCents 与 limitMicroCents 计算百分比，限制最高 100%，四舍五入至两位小数；resetsAt 为 UTC ISO 时间或 null。旧 HTML 页面解析兼容。
+- 页面用 toFixed(2)，桌面卡片用 .2 格式固定显示两位小数（如 0.10%）。
+- OpenAI 流忽略空 content 占位，防止关闭尚在接收参数的工具块；thinking 块补齐空 signature 字段。
+- test/probe_tool_stream.py 可读取指定配置做最小工具探测，仅输出分片元数据，不输出凭据或参数内容。
+- 本机旧 TDM GCC 链接器需使用 Rust 自带 rust-lld：复制为 target/build-support/ld.exe，COMPILER_PATH/LIBRARY_PATH 指向该目录，放置空 libgcc_eh.a；gcc -dumpspecs 去掉 --exclude-libs=libpthread.a 后存 gcc.specs；cargo rustc 最终目标带 -C link-arg=-specs=该绝对路径。

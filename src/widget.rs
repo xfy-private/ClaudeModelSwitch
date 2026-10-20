@@ -1454,7 +1454,7 @@ mod imp {
                                     "一月" => "月",
                                     other => other,
                                 };
-                                parts.push(format!("{short} {pct:.0}%"));
+                                parts.push(format!("{short} {pct:.2}%"));
                             }
                             if !parts.is_empty() {
                                 coding = parts.join(" · ");
@@ -1466,7 +1466,7 @@ mod imp {
                                 if let Some(p0) = plans.first() {
                                     let pct =
                                         p0.get("percent").and_then(|x| x.as_f64()).unwrap_or(0.0);
-                                    coding = format!("Coding Plan {pct:.0}%");
+                                    coding = format!("Coding Plan {pct:.2}%");
                                 }
                             }
                         }

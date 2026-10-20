@@ -567,6 +567,7 @@ pub async fn coding_plan(
                 },
             )
             .header("user-agent", format!("Mozilla/5.0 ClaudeRelay/{}", crate::api::VERSION));
+        let req = oc_console_request(req, p);
         let entry = match tokio::time::timeout(std::time::Duration::from_secs(8), req.send()).await {
             Ok(Ok(r)) if r.status().is_success() => {
                 // Phase 53：先捕获 Set-Cookie（续期用），再读 body 解析；顺带打印续期状态 + 诊断 JSON。
@@ -800,6 +801,7 @@ pub async fn refresh_console_cookies(state: Arc<AppState>) -> Vec<String> {
             )
             .header("user-agent", format!("Mozilla/5.0 ClaudeRelay/{}", crate::api::VERSION));
         // 成功响应才续期——401/超时说明 Cookie 已失效或网络问题，不把好 Cookie 覆盖成坏的
+        let req = oc_console_request(req, p);
         let Ok(Ok(r)) = tokio::time::timeout(std::time::Duration::from_secs(8), req.send()).await
         else {
             continue;
@@ -999,12 +1001,38 @@ fn xf_usage_url(p: &crate::config::ProviderConfig) -> String {
 }
 
 /// OpenCode 用量查询 URL（Phase 48）：必须配置 `console_usage_url`——它是含工作区 id 的
-/// `/go` 页面地址（`https://opencode.ai/workspace/{工作区ID}/go`），无法从 base_url 推导。
+/// 新版 `/console/{工作区ID}/go` 是 SPA，改查页面使用的同域 JSON 接口；旧 HTML 地址保持兼容。
 fn oc_usage_url(p: &crate::config::ProviderConfig) -> Result<String, String> {
+    if oc_workspace_id(&p.console_usage_url).is_some() {
+        return Ok("https://opencode.ai/console/api/go/status".into());
+    }
     if !p.console_usage_url.trim().is_empty() {
         return Ok(p.console_usage_url.trim().to_string());
     }
-    Err("OpenCode 需填写「用量查询 URL」为工作区 /go 页地址（https://opencode.ai/workspace/{工作区ID}/go）".into())
+    Err("OpenCode 需填写「用量查询 URL」为工作区 /go 页地址（https://opencode.ai/console/{工作区ID}/go）".into())
+}
+
+fn oc_workspace_id(page: &str) -> Option<String> {
+    let url = reqwest::Url::parse(page.trim()).ok()?;
+    if url.scheme() != "https" || url.host_str() != Some("opencode.ai") { return None; }
+    let parts: Vec<_> = url.path().trim_matches('/').split('/').collect();
+    if parts.len() != 3 || parts[0] != "console" || parts[2] != "go" { return None; }
+    let id = parts[1];
+    ((id.starts_with("wrk_") || id.starts_with("org_"))
+        && id.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_'))
+        .then(|| id.to_string())
+}
+
+/// 查询与 Cookie 续期共用新版控制台所需的工作区作用域。
+fn oc_console_request(req: reqwest::RequestBuilder, p: &crate::config::ProviderConfig) -> reqwest::RequestBuilder {
+    if console_kind(p) == Some(ConsoleKind::Oc) {
+        if let Some(id) = oc_workspace_id(&p.console_usage_url) {
+            return req.header("x-org-id", id)
+                .header("referer", p.console_usage_url.trim())
+                .header("accept", "application/json");
+        }
+    }
+    req
 }
 
 /// 解析 OpenCode `/go` 页面 HTML（Phase 48）→ 滚动/每周/每月用量 levels。
@@ -1015,6 +1043,9 @@ fn oc_usage_url(p: &crate::config::ProviderConfig) -> Result<String, String> {
 /// 用 `find_usage_pos` 只取「含 usagePercent 的真实用量对象」；`resetInSec` 用量为 0 时
 /// 上游不返回 → 可选，缺失则 `reset_ts=0`（前端 Phase 50 显示「还未使用」）。
 fn parse_oc_usage(body: &[u8]) -> Result<Vec<serde_json::Value>, String> {
+    if let Ok(value) = serde_json::from_slice::<serde_json::Value>(body) {
+        return parse_oc_status(&value);
+    }
     let html = String::from_utf8_lossy(body);
     let now = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -1042,6 +1073,56 @@ fn parse_oc_usage(body: &[u8]) -> Result<Vec<serde_json::Value>, String> {
         }));
     }
     Ok(levels)
+}
+
+/// 新控制台的金额为十进制字符串（MicroCents），三个窗口分别计算已用比例。
+fn parse_oc_status(value: &serde_json::Value) -> Result<Vec<serde_json::Value>, String> {
+    let meters = value.pointer("/access/meters")
+        .ok_or("OpenCode 无有效 Go 套餐用量（登录态失效或订阅已结束）")?;
+    let mut levels = Vec::new();
+    for (key, level, label) in [("fiveHour", "session", "5小时"), ("week", "weekly", "一周"), ("month", "monthly", "一月")] {
+        let meter = &meters[key];
+        let number = |field: &str| meter[field].as_u64()
+            .or_else(|| meter[field].as_str()?.parse::<u64>().ok())
+            .ok_or_else(|| format!("OpenCode {key} 缺少有效 {field}"));
+        let used = number("usedMicroCents")?;
+        let limit = number("limitMicroCents")?;
+        if limit == 0 { return Err(format!("OpenCode {key} 配额为零")); }
+        let reset = match meter.get("resetsAt") {
+            Some(serde_json::Value::Null) => 0,
+            Some(v) => v.as_str().and_then(oc_utc_timestamp)
+                .ok_or_else(|| format!("OpenCode {key} 重置时间格式无效"))?,
+            None => return Err(format!("OpenCode {key} 缺少重置时间")),
+        };
+        let percent = ((used as f64 * 100.0 / limit as f64).min(100.0) * 100.0).round() / 100.0;
+        levels.push(serde_json::json!({"level":level, "label":label, "percent":percent, "reset_ts":reset}));
+    }
+    Ok(levels)
+}
+
+/// 控制台返回 UTC ISO 时间（可带毫秒）；只需秒精度，无额外日期依赖。
+fn oc_utc_timestamp(input: &str) -> Option<u64> {
+    let (date, time) = input.strip_suffix('Z')?.split_once('T')?;
+    let date: Vec<u64> = date.split('-').map(str::parse).collect::<Result<_, _>>().ok()?;
+    let time: Vec<_> = time.split(':').collect();
+    if date.len() != 3 || time.len() != 3 { return None; }
+    let (year, month, day) = (date[0], date[1], date[2]);
+    let hour = time[0].parse::<u64>().ok()?;
+    let minute = time[1].parse::<u64>().ok()?;
+    let mut seconds = time[2].split('.');
+    let second = seconds.next()?.parse::<u64>().ok()?;
+    if let Some(fraction) = seconds.next() {
+        if fraction.is_empty() || !fraction.bytes().all(|b| b.is_ascii_digit()) { return None; }
+    }
+    if seconds.next().is_some() || !(1970..=9999).contains(&year) || !(1..=12).contains(&month)
+        || hour > 23 || minute > 59 || second > 59 { return None; }
+    let leap = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+    let months = [31, if leap {29} else {28}, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if day == 0 || day > months[(month - 1) as usize] { return None; }
+    let leap_days = |y: u64| y / 4 - y / 100 + y / 400;
+    let days = 365 * (year - 1970) + leap_days(year - 1) - leap_days(1969)
+        + months[..(month - 1) as usize].iter().sum::<u64>() + day - 1;
+    Some(days * 86400 + hour * 3600 + minute * 60 + second)
 }
 
 /// 定位 `{key}` 后真正的用量对象：页面里该 key 可能有 `: null` 占位（其它对象里的字段），
@@ -1439,6 +1520,53 @@ mod tests {
             oc_usage_url(&p).unwrap(),
             "https://opencode.ai/workspace/wrk_01KZQ6TA0DCPT2KZ1H43BG23R5/go"
         );
+    }
+
+    #[test]
+    fn oc_console_page_uses_scoped_status_request() {
+        let mut p = oc_provider();
+        p.console_usage_url = "https://opencode.ai/console/wrk_example/go/?view=usage".into();
+        assert_eq!(oc_usage_url(&p).unwrap(), "https://opencode.ai/console/api/go/status");
+        let request = oc_console_request(reqwest::Client::new().get(oc_usage_url(&p).unwrap()), &p).build().unwrap();
+        assert_eq!(request.headers()["x-org-id"], "wrk_example");
+        assert_eq!(request.headers()["referer"], p.console_usage_url);
+        assert_eq!(request.headers()["accept"], "application/json");
+        assert!(oc_workspace_id("https://opencode.ai.evil.test/console/wrk_example/go").is_none());
+        assert!(oc_workspace_id("http://opencode.ai/console/wrk_example/go").is_none());
+        assert!(oc_workspace_id("https://opencode.ai/console/api/go/status").is_none());
+        assert!(oc_workspace_id("https://opencode.ai/workspace/wrk_example/go").is_none());
+    }
+
+    #[test]
+    fn oc_status_parses_precise_usage_and_resets() {
+        let body = serde_json::json!({"access":{"meters":{
+            "fiveHour":{"usedMicroCents":"1195046","limitMicroCents":"1200000000","resetsAt":"2026-10-20T14:22:32.000Z"},
+            "week":{"usedMicroCents":300,"limitMicroCents":200,"resetsAt":"1970-01-01T00:00:00Z"},
+            "month":{"usedMicroCents":"0","limitMicroCents":"6000000000","resetsAt":null}
+        }}});
+        let levels = parse_oc_usage(&serde_json::to_vec(&body).unwrap()).unwrap();
+        assert_eq!(levels[0]["percent"], 0.10);
+        assert_eq!(levels[0]["reset_ts"], 1792506152u64);
+        assert_eq!(levels[1]["percent"], 100.0);
+        assert_eq!(levels[2]["percent"], 0.0);
+        assert_eq!(levels[2]["reset_ts"], 0);
+        let mut invalid = body.clone();
+        invalid["access"]["meters"]["fiveHour"]["limitMicroCents"] = serde_json::json!(0);
+        assert!(parse_oc_status(&invalid).is_err());
+        invalid["access"]["meters"]["fiveHour"]["limitMicroCents"] = serde_json::json!(100);
+        invalid["access"]["meters"]["fiveHour"]["usedMicroCents"] = serde_json::Value::Null;
+        assert!(parse_oc_status(&invalid).is_err());
+        assert!(parse_oc_status(&serde_json::json!({"access":null})).is_err());
+        assert!(parse_oc_status(&serde_json::Value::Null).is_err());
+    }
+
+    #[test]
+    fn oc_reset_timestamp_validates_calendar_dates() {
+        assert_eq!(oc_utc_timestamp("1970-01-01T00:00:00Z"), Some(0));
+        assert_eq!(oc_utc_timestamp("2000-02-29T00:00:00.123Z"), Some(951782400));
+        for invalid in ["2026-02-29T00:00:00Z", "2100-02-29T00:00:00Z", "2026-10-20T24:00:00Z", "2026-10-20T00:00:00.badZ", "2026-10-20T00:00:00+08:00", "9999999999-01-01T00:00:00Z"] {
+            assert_eq!(oc_utc_timestamp(invalid), None, "{invalid}");
+        }
     }
 
     #[test]
