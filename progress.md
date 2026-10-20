@@ -412,3 +412,8 @@
 ## 一键打包脚本
 - 新增根目录 build.bat：依赖检查、GNU target、Tailwind 构建、旧 GCC/LLD 兼容、release 输出 dist/claude-relay.exe 与 6 MiB 检查。支持 --offline、--mirror、--no-pause；正在以离线镜像模式实际验证。
 - 实测 build.bat --offline --mirror --no-pause 成功，输出 dist/claude-relay.exe（3.45 MiB）。
+
+## 重置日期格式统一
+- OpenCode 每周/每月重置时间从 日-月 改为 月-日，统一复用 fmtTs；删除旧 fmtTsDM。
+- 使用页面实际函数核验北京时间：10-26 08:00、11-19 14:56 均符合要求。正在重新打包 exe。
+- 发布构建成功，dist 与安装目录 exe 哈希一致，运行中页面核验通过；配置未变。

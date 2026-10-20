@@ -1069,16 +1069,10 @@ function fmtTs(ts){
   const d=new Date(ts*1000), p=n=>String(n).padStart(2,'0');
   return `${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
-function fmtTsDM(ts){
-  // Phase 48：OpenCode 一周/一月重置时间用 dd-MM hh:mm
-  if(!ts) return '';
-  const d=new Date(ts*1000), p=n=>String(n).padStart(2,'0');
-  return `${p(d.getDate())}-${p(d.getMonth()+1)} ${p(d.getHours())}:${p(d.getMinutes())}`;
-}
-function resetSuffix(l, oc){
+function resetSuffix(l){
   // Phase 50：用量为 0 且上游无重置时间（reset_ts 缺失/0）→ 显示「还未使用」，不再渲染空的「重置 …」
   if(!l.reset_ts) return ' · 还未使用';
-  const t = oc ? (l.label==='5小时' ? fmtTs(l.reset_ts) : fmtTsDM(l.reset_ts)) : fmtTs(l.reset_ts);
+  const t = fmtTs(l.reset_ts);
   return ' · 重置 ' + t;
 }
 async function loadCodingPlan(){
@@ -1107,10 +1101,9 @@ async function loadCodingPlan(){
         info.innerHTML=fmtXfPlans(c.plans||[])+
           (c.cookie_source==='browser' ? '<div class="text-zinc-400 text-xs">（浏览器 Cookie）</div>' : '');
       } else {
-        // Phase 48：OpenCode 重置时间按等级分派（5小时→MM-dd hh:mm；一周/一月→dd-MM hh:mm），
-        // 火山方舟沿用统一 MM-dd hh:mm；Phase 50：用量为 0 无重置时间 → 显示「还未使用」
+        // 重置时间统一 MM-dd hh:mm；无重置时间时显示「还未使用」。
         info.innerHTML=(c.levels||[]).map(l=>
-          `<b>${l.label}</b> ${Number(l.percent).toFixed(2)}%<span class="text-zinc-400">${resetSuffix(l, c.kind==='oc')}</span>`
+          `<b>${l.label}</b> ${Number(l.percent).toFixed(2)}%<span class="text-zinc-400">${resetSuffix(l)}</span>`
         ).join('<span class="mx-1.5 text-zinc-300">|</span>') +
         (c.cookie_source==='browser' ? ' <span class="text-zinc-400 text-xs">（浏览器 Cookie）</span>' : '');
       }
